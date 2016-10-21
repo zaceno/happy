@@ -1,0 +1,21 @@
+/*
+  Mixin to define the slide-left and slide-right
+  transitions (vue appends the enter, enter-active, leave, leave-active
+  classes to transitioning opbjects)
+
+  depends on the in-mixing selector to be absolutely positioned, within
+  its element.
+*/
+
+.slide-transition() {
+  @duration: 0.3s;
+  .t () { transition: left @duration }
+  .ol () { left: -100%; }
+  .or () { left: 100%;  }
+  &.slide-left-enter { .or(); }
+  &.slide-left-enter-active { .t() }
+  &.slide-left-leave-active { .ol(); .t(); }
+  &.slide-right-enter { .ol(); }
+  &.slide-right-enter-active { .t(); }
+  &.slide-right-leave-active { .or(); .t(); }
+}
