@@ -1,37 +1,26 @@
 <template>
-  <ul>
-    <li
-    :class="{active: $store.state.currentVote === null}"
-    @click="$store.commit('setVote', null)"
-    >No vote</li>
-    <li
-    :class="{active: $store.state.currentVote === 5}"
-    @click="$store.commit('setVote', 5)"
-    >5</li>
-    <li
-    :class="{active: $store.state.currentVote === 4}"
-    @click="$store.commit('setVote', 4)"
-    >4</li>
-    <li
-    :class="{active: $store.state.currentVote === 3}"
-    @click="$store.commit('setVote', 3)"
-    >3</li>
-    <li
-    :class="{active: $store.state.currentVote === 2}"
-    @click="$store.commit('setVote', 2)"
-    >2</li>
-    <li
-    :class="{active: $store.state.currentVote === 1}"
-    @click="$store.commit('setVote', 1)"
-    >1</li>
+  <ul class="list-selector">
+    <vote-selection :value="0"></vote-selection>
+    <vote-selection :value="5"></vote-selection>
+    <vote-selection :value="4"></vote-selection>
+    <vote-selection :value="3"></vote-selection>
+    <vote-selection :value="2"></vote-selection>
+    <vote-selection :value="1"></vote-selection>
   </ul>
 </template>
-<style>
-li {
-  height: 40px;
+<script>
+import VoteSelection from './VoteSelection.vue'
+export default {
+  components: { VoteSelection }
 }
+</script>
+<style lang="less">
 
-li.active {
-  background-color: #ff99ff;
+ul.list-selector {
+  position: relative;
+  text-indent: none;
+  list-style-type: none;
+  margin: 10px;
+  display: block;
 }
 </style>

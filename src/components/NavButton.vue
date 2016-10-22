@@ -42,7 +42,8 @@ button.nav-button {
   background-color: @bgcolor;
   color: #fff;
   position: relative;
-  padding: 42px;
+  width: 100%;
+  padding: 0.2em;
   .button-main {
     text-transform: uppercase;
   }

@@ -1,11 +1,18 @@
 <template>
   <page
     next-page="/vote"
-    next-button-label="Start Voting"
+    next-button-label="Vote"
     next-button-info="Are you the next person? Tap here to..."
   >
-    <panel>Pass to the next person</panel>
-    <nav-button page="/result" label="See Results" @go="reset" direction="right">
+    <panel>Please pass the phone to the next person.</panel>
+    <nav-button
+      class="result-button"
+      page="/result"
+      label="Check Result"
+      @go="reset"
+      direction="right"
+      info="Has everyone voted? Then..."
+    >
   </page>
 </template>
 <script>
@@ -25,3 +32,8 @@ export default {
   }
 }
 </script>
+<style>
+.result-button {
+  top: 2em;
+}
+</style>

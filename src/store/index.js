@@ -6,18 +6,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     votes: [],
-    currentVote: null,
-    result: null
+    currentVote: 0,
+    result: 0
   },
   mutations: {
     setVote (state, val) { state.currentVote = val },
     castVote (state) {
-      if (state.currentVote !== null) state.votes.push(state.currentVote)
-      state.currentVote = null
+      if (state.currentVote !== 0) state.votes.push(state.currentVote)
+      state.currentVote = 0
       console.log('VOTE CAST', state.votes)
     },
     finishRound (state) {
-      var result = null
+      var result = 0
       if (state.votes.length > 0) {
         result = state.votes.reduce((sum, v) => { return sum + v }) / state.votes.length
         result = Math.round(result * 10) / 10 // round to single decimal
