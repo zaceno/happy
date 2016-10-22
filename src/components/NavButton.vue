@@ -9,14 +9,18 @@
     @touchend="isActive = false"
     type="button"
   >
-    <i class="arrow right"></i>
-    <span class="button-info">{{info}}</span>
+    <div class="chevron animated" :class="[direction]">
+      <svg width="100%" height="100%" viewBox="-35 -60 70 120" xmlns="http://www.w3.org/2000/svg">
+        <path d="M -25 -60 L 35 0 L -25 60 L -35 50 L 15 0 L -35 -50 z" />
+      </svg>
+    </div>
+    <span v-if="info" class="button-info">{{info}}<br></span>
     <span class="button-main">{{label}}</span>
   </button>
 </template>
 <script>
 export default {
-  props: ['label', 'page', 'info'],
+  props: ['label', 'page', 'info', 'direction'],
   data () {
     return {
       isActive: false
@@ -31,45 +35,49 @@ export default {
 }
 </script>
 <style lang="less">
-@import '../assets/fontawesome/path.less';
-@import '../assets/fontawesome/variables.less';
-@import '../assets/fontawesome/core.less';
-@import '../assets/fontawesome/larger.less';
-@import '../assets/fontawesome/bordered-pulled.less';
 
 button.nav-button {
 
   @bgcolor: #d6975c;
   background-color: @bgcolor;
   color: #fff;
-  padding: 2em;
   position: relative;
-
-  i.arrow.right {
-    display: block;
-    position: absolute;
-    right: 4px;
-    .fa();
-    .fa-2x();
-    &:before { content: @fa-var-chevron-right; }
-    height: 28px;
-    top: 50%;
-    margin-top: -14px;
+  padding: 42px;
+  .button-main {
+    text-transform: uppercase;
   }
-/*    i {
-      vertical-align: middle;
-    }
-  }*/
-
+  .button-info {
+    line-height: 0.7em;
+    font-size: 0.5em;
+  }
   &.active {
     background-color: darken(@bgcolor, 20%);
     text-shadow: darken(@bgcolor, 55%);
   }
-  span.button-main {
-    font-size: 2em;
-    font-weight: bold;
-
-  }
   text-shadow: 0 0 1px darken(@bgcolor, 40%);
+  .chevron {
+    @w: 21px;
+    @h: 36px;
+    width: @w;
+    position: absolute;
+    right: @w;
+    top: 50%;
+    margin-top: -@h/2;
+    svg {
+      filter: drop-shadow( 0 0 1px darken(@bgcolor, 40%));
+      path {
+        fill: currentColor;
+      }
+    }
+    &.left {
+      svg path {
+        transform: scale(-1, 1)
+      }
+      left: @w/2;
+    }
+    &.right {
+      right: @w/2;
+    }
+  }
 }
 </style>

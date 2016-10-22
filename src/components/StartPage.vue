@@ -1,5 +1,5 @@
 <template>
-  <page next-page="/pass" next-button-label="Start">
+  <page next-page="/pass" next-button-label="Start Round">
     This is the happiness voting app
   </page>
 </template>

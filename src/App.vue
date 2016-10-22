@@ -21,12 +21,12 @@ export default {
 }
 </script>
 <style lang="less">
-*, ul, li, button, input {
+*, ul, li, button, input, body {
   margin: 0;
   padding: 0;
   border: 0;
   font-family: Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 30px;
 }
 
 html, body, div#app {

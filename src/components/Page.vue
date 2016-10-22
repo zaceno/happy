@@ -8,6 +8,7 @@
       :page="nextPage"
       :label="nextButtonLabel"
       :info="nextButtonInfo"
+      :direction="nextDirection"
     >
   </div>
 </template>
@@ -15,7 +16,12 @@
 import NextStepButton from './NextStepButton.vue'
 export default {
   props: ['nextPage', 'nextButtonLabel', 'nextButtonInfo'],
-  components: { NextStepButton }
+  components: { NextStepButton },
+  computed: {
+    nextDirection () {
+      return this.nextPage === '/start' ? 'left' : 'right'
+    }
+  }
 }
 </script>
 <style lang="less">

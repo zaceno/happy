@@ -12,5 +12,6 @@ button.nav-button {
   left: 0;
   right: 0;
   width: 100%;
+  padding: 0.5em;
 }
 </style>

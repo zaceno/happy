@@ -1,19 +1,17 @@
 <template>
   <page
     next-page="/vote"
-    next-button-label="VOTE"
-    next-button-info="Are you the next person? Click here to..."
+    next-button-label="Start Voting"
+    next-button-info="Are you the next person? Tap here to..."
   >
-    This is the pass page
-
-    if Everyone is done
-    <nav-button page="/result" label="See Results" @go="reset">
+    <panel>Pass to the next person</panel>
+    <nav-button page="/result" label="See Results" @go="reset" direction="right">
   </page>
 </template>
 <script>
 import Page from './Page.vue'
 import NavButton from './NavButton.vue'
-
+import Panel from './Panel.vue'
 export default {
   methods: {
     reset () {
@@ -22,6 +20,7 @@ export default {
   },
   components: {
     Page,
+    Panel,
     NavButton
   }
 }
