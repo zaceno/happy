@@ -1,9 +1,12 @@
 <template>
   <div class="page">
-    <slot>
-      Page content goes here
-    </slot>
+    <div class="page-content">
+      <slot>
+        Page content goes here
+      </slot>
+    </div>
     <next-step-button
+      class="next-button"
       @go="$emit('go-next')"
       :page="nextPage"
       :label="nextButtonLabel"
@@ -36,5 +39,18 @@ export default {
   left: 0;
 
   .slide-transition()
+}
+
+.page-content {
+  height: 85%;
+  max-height: 85%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.next-button {
+  height: 15%;
+  max-height: 15%;
+  overflow: hidden;
 }
 </style>

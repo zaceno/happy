@@ -26,7 +26,7 @@ export default {
   padding: 0;
   border: 0;
   font-family: Helvetica, Arial, sans-serif;
-  font-size: 30px;
+  font-size: 24px;
 }
 
 html, body, div#app {

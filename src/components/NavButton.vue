@@ -14,8 +14,8 @@
         <path d="M -25 -60 L 35 0 L -25 60 L -35 50 L 15 0 L -35 -50 z" />
       </svg>
     </div>
-    <span v-if="info" class="button-info">{{info}}<br></span>
-    <span class="button-main">{{label}}</span>
+    <div v-if="info" class="button-info">{{info}}</div>
+    <div class="button-main">{{label}}</div>
   </button>
 </template>
 <script>
@@ -43,14 +43,20 @@ button.nav-button {
   color: #fff;
   position: relative;
   width: 100%;
-  padding: 0.2em;
+  overflow: hidden;
+
   .button-main {
     text-transform: uppercase;
   }
   .button-info {
-    line-height: 0.7em;
-    font-size: 0.5em;
+    font-size: 0.6em;
   }
+
+  @media screen and (max-height: 350px) {
+    .button-main { font-size: 0.8em; }
+    .button-info { font-size: 0.5em; }
+  }
+
   &.active {
     background-color: darken(@bgcolor, 20%);
     text-shadow: darken(@bgcolor, 55%);

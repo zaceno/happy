@@ -4,15 +4,15 @@
     next-button-label="Vote"
     next-button-info="Are you the next person? Tap here to..."
   >
-    <panel>Please pass the phone to the next person.</panel>
-    <nav-button
-      class="result-button"
-      page="/result"
-      label="Check Result"
-      @go="reset"
-      direction="right"
-      info="Has everyone voted? Then..."
-    >
+  <nav-button
+    class="result-button"
+    page="/result"
+    label="Check Result"
+    @go="reset"
+    direction="right"
+    info="Has everyone voted? Then..."
+  />
+    <panel class="prompt-panel">Please pass the phone to the next person.</panel>
   </page>
 </template>
 <script>
@@ -32,8 +32,14 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="less">
+
 .result-button {
-  top: 2em;
+  height: 18%;
+  max-height: 18%;
 }
+.prompt-panel {
+  height: 80%;
+}
+
 </style>

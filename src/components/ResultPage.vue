@@ -5,7 +5,7 @@
     @go-next="$store.commit('reset')"
     next-button-info="Need to do it again?"
   >
-    <panel>
+    <panel class="result-panel">
     Happiness index:
     <div id="result">
       {{ resultStr }}
@@ -27,6 +27,9 @@ export default {
 }
 </script>
 <style>
+.result-panel {
+  height: 98%;
+}
 #result {
   width: 200px;
   height: 200px;

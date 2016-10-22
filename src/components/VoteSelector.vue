@@ -1,11 +1,11 @@
 <template>
   <ul class="list-selector">
-    <vote-selection :value="0"></vote-selection>
-    <vote-selection :value="5"></vote-selection>
-    <vote-selection :value="4"></vote-selection>
-    <vote-selection :value="3"></vote-selection>
-    <vote-selection :value="2"></vote-selection>
-    <vote-selection :value="1"></vote-selection>
+    <vote-selection class="vote-item" :value="0"></vote-selection>
+    <vote-selection class="vote-item" :value="5"></vote-selection>
+    <vote-selection class="vote-item" :value="4"></vote-selection>
+    <vote-selection class="vote-item" :value="3"></vote-selection>
+    <vote-selection class="vote-item" :value="2"></vote-selection>
+    <vote-selection class="vote-item" :value="1"></vote-selection>
   </ul>
 </template>
 <script>
@@ -17,10 +17,16 @@ export default {
 <style lang="less">
 
 ul.list-selector {
-  position: relative;
   text-indent: none;
   list-style-type: none;
-  margin: 10px;
   display: block;
+  position: relative;
+
+  .vote-item {
+    height: 16.67%;
+    overflow: hidden;
+  }
 }
+
+
 </style>

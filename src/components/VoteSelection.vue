@@ -6,7 +6,7 @@
     <div class="number">{{valstr}}</div>
     <div class="label">{{label}}</div>
     <div class="extra">{{extra}}</div>
-    <icon :name="iconName"></icon>
+    <icon class="smiley" :name="iconName"></icon>
   </li>
 </template>
 <script>
@@ -66,12 +66,35 @@ li {
   @color: lighten(@bgcolor, 25%);
 
   position: relative;
-  font-size: 0.8em;
 
-  height: 1.88em;
   color: @color;
   background-color: @bgcolor;
   text-shadow: 0 0 1px darken(@bgcolor, 40%);
+
+  @media screen and (min-height: 550px) {
+    .extra { font-size: 0.65em }
+  }
+
+  @media screen and (max-height: 550px) {
+    .number { font-size: 0.9em; }
+    .label { font-size: 0.9em; }
+    .extra { font-size: 0.6em; }
+  }
+  @media screen and (max-height: 500px) {
+    .number { font-size: 0.8em; }
+    .label { font-size: 0.8em; }
+    .extra { font-size: 0.55em; }
+  }
+  @media screen and (max-height: 450px) {
+    .number { font-size: 0.7em; }
+    .label { font-size: 0.7em; }
+    .extra { font-size: 0.5em; }
+  }
+  @media screen and (max-height: 400px) {
+    .number { font-size: 0.6em; }
+    .label { font-size: 0.6em; }
+    .extra { font-size: 0.4em; }
+  }
 
   .number {
     position: absolute;
@@ -83,14 +106,12 @@ li {
     position: absolute;
     top: 0.2em;
     left: 2.0em;
-    font-size: 0.8em;
   }
 
   .extra {
     position: absolute;
     top:2.2em;
-    left: 3em;
-    font-size: 0.5em;
+    left: 2.7em;
     font-style: italic;
     &:before { content: '"'; }
     &:after { content: '"'; }
@@ -104,12 +125,12 @@ li {
   }
 
 
-  .icon {
-    width: 1.3em;
-    height: 1.3em;
+  .smiley {
     position: absolute;
-    top: 0.3em;
-    right: 0.3em;
+    top: 0.2em;
+    right: 0.2em;
+    bottom: 0.2em;
+    width: 2em;;
     svg *{
       stroke: currentColor;
       fill: transparent;
