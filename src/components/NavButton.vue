@@ -6,7 +6,6 @@
     @mousedown="isActive = true"
     @mouseup="isActive = false"
     @touchstart="isActive = true"
-    @touchend="isActive = false"
     type="button"
   >
     <div class="chevron animated" :class="[direction]">

@@ -2,7 +2,8 @@
   <li
     class="vote-option"
     :class="{active: $store.state.currentVote === value}"
-    @click="$store.commit('setVote', value)"
+    @click="select"
+    @touchstart="select"
   >
     <div class="label">{{labelstr}}</div>
     <div class="extra">{{extra}}</div>
@@ -42,6 +43,11 @@ const ICONS = {
 export default {
   components: { Icon },
   props: ['value'],
+  methods: {
+    select () {
+      this.$store.commit('setVote', this.value)
+    }
+  },
   computed: {
     labelstr () {
       if (this.value === 0) return LABELS[0]
