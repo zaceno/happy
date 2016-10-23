@@ -2,6 +2,14 @@
 
 > Calculate average happiness from a series of anonymous inputs
 
+## Use it
+
+Visit [https://zaceno.github.io/happy]
+
+## Made with
+
+Vue.js and related tools. Scaffolded project using webpack, vue-loader, less et c.
+
 ## Build Setup
 
 ``` bash
@@ -13,12 +21,4 @@ npm run dev
 
 # build for production with minification
 npm run build
-
-# run unit tests
-npm run unit
-
-# run all tests
-npm test
 ```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
