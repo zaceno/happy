@@ -1,32 +1,21 @@
 <template>
   <page
-    next-page="/reset"
-    next-button-label="Reset"
-    @go-next="$store.commit('reset')"
-    next-button-info="Need to do it again?"
+    next-page="/first"
+    next-button-label="Start Again"
+    next-button-info="Tap here to ..."
   >
     <panel class="result-panel">
-    Happiness index:
-    <div id="result">
-      {{ resultStr }}
-    </div>
+      Data has been reset!
+      <div id="result"></div>
     </panel>
   </page>
 </template>
 <script>
 import Page from './Page.vue'
 import Panel from './Panel.vue'
-export default {
-  components: { Page, Panel },
-  computed: {
-    resultStr () {
-      if (this.$store.state.result === 0) return ''
-      return '' + this.$store.state.result
-    }
-  }
-}
+export default { components: { Page, Panel } }
 </script>
-<style>
+<style lang="less">
 .result-panel {
   height: 98%;
 }

@@ -1,8 +1,8 @@
 <template>
   <page
-    next-page="/pass"
+    next-page="/first"
     next-button-label="Start Round"
-    next-button-info="Tap here to "
+    next-button-info="Tap here to ..."
   >
     <panel class="start-panel">
       Happiness Index Calculator

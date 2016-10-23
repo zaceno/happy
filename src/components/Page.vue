@@ -16,19 +16,20 @@
   </div>
 </template>
 <script>
+import {direction} from '../router'
 import NextStepButton from './NextStepButton.vue'
+
 export default {
   props: ['nextPage', 'nextButtonLabel', 'nextButtonInfo'],
   components: { NextStepButton },
   computed: {
     nextDirection () {
-      return this.nextPage === '/start' ? 'left' : 'right'
+      return direction(this.$route.path, this.nextPage)
     }
   }
 }
 </script>
 <style lang="less">
-@import '../assets/transitions.less';
 
 .page {
   background-color: #fff;
@@ -38,19 +39,19 @@ export default {
   top: 0;
   left: 0;
 
-  .slide-transition()
+  .page-content {
+    height: 85%;
+    max-height: 85%;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .next-button {
+    height: 15%;
+    max-height: 15%;
+    overflow: hidden;
+  }
+
 }
 
-.page-content {
-  height: 85%;
-  max-height: 85%;
-  width: 100%;
-  overflow: hidden;
-}
-
-.next-button {
-  height: 15%;
-  max-height: 15%;
-  overflow: hidden;
-}
 </style>

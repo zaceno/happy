@@ -12,10 +12,10 @@
   .t () { transition: left @duration }
   .ol () { left: -100%; }
   .or () { left: 100%;  }
-  &.slide-left-enter { .or(); }
-  &.slide-left-enter-active { .t() }
-  &.slide-left-leave-active { .ol(); .t(); }
-  &.slide-right-enter { .ol(); }
-  &.slide-right-enter-active { .t(); }
-  &.slide-right-leave-active { .or(); .t(); }
+  &.slide-right-enter { .or(); }
+  &.slide-right-enter-active { .t() }
+  &.slide-right-leave-active { .ol(); .t(); }
+  &.slide-left-enter { .ol(); }
+  &.slide-left-enter-active { .t(); }
+  &.slide-left-leave-active { .or(); .t(); }
 }

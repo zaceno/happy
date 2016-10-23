@@ -1,26 +1,41 @@
 <template>
-  <div id="app">
-    <transition :name="transition" appear>
-      <router-view></router-view>
-    </transition>
-  </div>
+    <div id="app">
+      <transition :name="transition" appear>
+        <router-view></router-view>
+      </transition>
+    </div>
 </template>
 <script>
+import { direction } from './router'
+
 export default {
   data () {
     return {
-      transition: 'slide-left'
+      prevPath: '/nothing',
+      currentPath: this.$route.path
+    }
+  },
+  computed: {
+    nextDirection () {
+      return direction(this._myPath, this.nextPage)
+    },
+    transition () {
+      console.log('TRANS', this.prevPath, this.currentPath, direction(this.prevPath, this.currentPath))
+      return 'slide-' + direction(this.prevPath, this.currentPath)
     }
   },
   watch: {
     '$route' (to) {
-      if (to.path === '/start') this.transition = 'slide-right'
-      else this.transition = 'slide-left'
+      this.prevPath = this.currentPath
+      this.currentPath = to.path
     }
   }
+
 }
 </script>
 <style lang="less">
+@import './assets/transitions.less';
+
 *, ul, li, button, input, body {
   margin: 0;
   padding: 0;
@@ -39,4 +54,9 @@ html, body, div#app {
   background-color: #888;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
+
+#app .page {
+  .slide-transition()
+}
+
 </style>
