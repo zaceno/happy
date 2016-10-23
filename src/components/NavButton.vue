@@ -3,9 +3,10 @@
     class="nav-button"
     :class="{active: isActive}"
     @click="onClick"
-    @mousedown="isActive = true"
-    @mouseup="isActive = false"
-    @touchstart="isActive = true"
+    @mousedown="activate"
+    @mouseup="deactivate"
+    @touchstart="onTouchStart"
+    @touchend="onTouchEnd"
     type="button"
   >
     <div class="chevron animated" :class="[direction]">
@@ -18,6 +19,8 @@
   </button>
 </template>
 <script>
+var touchEnabled = false
+
 export default {
   props: ['label', 'page', 'info', 'direction'],
   data () {
@@ -26,9 +29,30 @@ export default {
     }
   },
   methods: {
-    onClick (ev) {
+    doAction () {
       this.$router.replace(this.page)
       this.$emit('go')
+    },
+    activate () {
+      this.isActive = true
+    },
+    deactivate () {
+      this.isActive = false
+    },
+    onClick (ev) {
+      if (touchEnabled) {
+        ev.preventDefault(true)
+        return
+      }
+      this.doAction()
+    },
+    onTouchStart (ev) {
+      touchEnabled = true
+      this.isActive = true
+    },
+    onTouchEnd (ev) {
+      this.isActive = false
+      this.doAction()
     }
   }
 }

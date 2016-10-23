@@ -37,5 +37,6 @@ html, body, div#app {
   width: 100%;
   height: 100%;
   background-color: #888;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 </style>
