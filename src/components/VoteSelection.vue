@@ -2,7 +2,7 @@
   <li
     class="vote-option"
     :class="{active: $store.state.currentVote === value}"
-    @click="select"
+    @mousedown="select"
     @touchstart="select"
   >
     <div class="label">{{labelstr}}</div>
