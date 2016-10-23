@@ -122,21 +122,21 @@ li.vote-option {
 
   @media screen and (max-height: 550px) {
     .label { font-size: 0.9em; }
-    .extra { font-size: 0.6em; }
+    .extra { font-size: 0.6em; top: 2.15em; }
   }
   @media screen and (max-height: 500px) {
     .label { font-size: 0.8em; }
-    .extra { font-size: 0.55em; }
+    .extra { font-size: 0.55em; top: 2.1em; }
     .smiley { left: 0.1em; }
   }
   @media screen and (max-height: 450px) {
     .label { font-size: 0.7em; }
-    .extra { font-size: 0.5em; }
+    .extra { font-size: 0.5em; top: 2.05em;}
     .smiley { left: 0; }
   }
   @media screen and (max-height: 400px) {
     .label { font-size: 0.6em; }
-    .extra { font-size: 0.4em; }
+    .extra { font-size: 0.4em; top: 2.0em;}
     .smiley { left: -0.2em; }
   }
 
