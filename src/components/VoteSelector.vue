@@ -23,7 +23,7 @@ ul.list-selector {
   position: relative;
 
   .vote-item {
-    height: 16.67%;
+    height: 16.3%;
     overflow: hidden;
   }
 }

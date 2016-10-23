@@ -1,10 +1,10 @@
 <template>
   <li
+    class="vote-option"
     :class="{active: $store.state.currentVote === value}"
     @click="$store.commit('setVote', value)"
   >
-    <div class="number">{{valstr}}</div>
-    <div class="label">{{label}}</div>
+    <div class="label">{{labelstr}}</div>
     <div class="extra">{{extra}}</div>
     <icon class="smiley" :name="iconName"></icon>
   </li>
@@ -43,9 +43,9 @@ export default {
   components: { Icon },
   props: ['value'],
   computed: {
-    valstr () {
-//      if (this.value === 0) return ''
-      return '' + this.value
+    labelstr () {
+      if (this.value === 0) return LABELS[0]
+      return `${this.value}: ${LABELS[this.value]}`
     },
     label () {
       return LABELS[this.value]
@@ -61,7 +61,7 @@ export default {
 </script>
 <style lang="less">
 /*  #78c5e4 */
-li {
+li.vote-option {
   @bgcolor: #3cb8ea ;
   @color: lighten(@bgcolor, 25%);
 
@@ -70,48 +70,19 @@ li {
   color: @color;
   background-color: @bgcolor;
   text-shadow: 0 0 1px darken(@bgcolor, 40%);
+  border-bottom: 1px lighten(@bgcolor, 15%) solid;
 
-  @media screen and (min-height: 550px) {
-    .extra { font-size: 0.65em }
-  }
-
-  @media screen and (max-height: 550px) {
-    .number { font-size: 0.9em; }
-    .label { font-size: 0.9em; }
-    .extra { font-size: 0.6em; }
-  }
-  @media screen and (max-height: 500px) {
-    .number { font-size: 0.8em; }
-    .label { font-size: 0.8em; }
-    .extra { font-size: 0.55em; }
-  }
-  @media screen and (max-height: 450px) {
-    .number { font-size: 0.7em; }
-    .label { font-size: 0.7em; }
-    .extra { font-size: 0.5em; }
-  }
-  @media screen and (max-height: 400px) {
-    .number { font-size: 0.6em; }
-    .label { font-size: 0.6em; }
-    .extra { font-size: 0.4em; }
-  }
-
-  .number {
-    position: absolute;
-    left: 0.3em;
-    top: 0.3em;
-  }
 
   .label {
     position: absolute;
-    top: 0.2em;
-    left: 2.0em;
+    top: 0.4em;
+    left: 3em;
   }
 
   .extra {
     position: absolute;
-    top:2.2em;
-    left: 2.7em;
+    top: 2.5em;
+    left: 4em;
     font-style: italic;
     &:before { content: '"'; }
     &:after { content: '"'; }
@@ -128,7 +99,7 @@ li {
   .smiley {
     position: absolute;
     top: 0.2em;
-    right: 0.2em;
+    left: 0.2em;
     bottom: 0.2em;
     width: 2em;;
     svg *{
@@ -138,6 +109,31 @@ li {
       filter: drop-shadow( 0 0 2px darken(@bgcolor, 40%));
     }
   }
+
+  @media screen and (min-height: 550px) {
+    .extra { font-size: 0.65em }
+  }
+
+  @media screen and (max-height: 550px) {
+    .label { font-size: 0.9em; }
+    .extra { font-size: 0.6em; }
+  }
+  @media screen and (max-height: 500px) {
+    .label { font-size: 0.8em; }
+    .extra { font-size: 0.55em; }
+    .smiley { left: 0.1em; }
+  }
+  @media screen and (max-height: 450px) {
+    .label { font-size: 0.7em; }
+    .extra { font-size: 0.5em; }
+    .smiley { left: 0; }
+  }
+  @media screen and (max-height: 400px) {
+    .label { font-size: 0.6em; }
+    .extra { font-size: 0.4em; }
+    .smiley { left: -0.2em; }
+  }
+
 
 }
 
