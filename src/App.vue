@@ -20,7 +20,6 @@ export default {
       return direction(this._myPath, this.nextPage)
     },
     transition () {
-      console.log('TRANS', this.prevPath, this.currentPath, direction(this.prevPath, this.currentPath))
       return 'slide-' + direction(this.prevPath, this.currentPath)
     }
   },
