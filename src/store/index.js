@@ -14,7 +14,6 @@ export default new Vuex.Store({
     castVote (state) {
       if (state.currentVote !== 0) state.votes.push(state.currentVote)
       state.currentVote = 0
-      console.log('VOTE CAST', state.votes)
     },
     finishRound (state) {
       var result = 0
@@ -24,14 +23,12 @@ export default new Vuex.Store({
       }
       state.result = result
       state.votes = []
-      console.log('FINISHED ROUND', state.result, state.votes)
       state.currentVote = null
     },
     reset (state) {
-      console.log('RESETTING VOTE')
       state.votes = []
-      state.currentVote = null
-      state.result = null
+      state.currentVote = 0
+      state.result = 0
     }
   }
 })
