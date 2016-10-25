@@ -5,7 +5,7 @@
     next-button-info="Tap here to ..."
   >
     <panel class="result-panel">
-      Data has been reset!
+      All votes cleared from memory
       <div id="result"></div>
     </panel>
   </page>

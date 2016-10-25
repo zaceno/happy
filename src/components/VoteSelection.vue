@@ -66,18 +66,22 @@ export default {
 }
 </script>
 <style lang="less">
-/*  #78c5e4 */
+@import '../assets/icon.less';
+
 li.vote-option {
-  @bgcolor: #3cb8ea ;
-  @color: lighten(@bgcolor, 25%);
+  @bgColor: #3cb8ea ;
+  @color: lighten(@bgColor, 25%);
+  @dropShadowColor: darken(@bgColor, 40%);
+  @activeColor: lighten(@color, 500%);
+  @activeBgColor: darken(@bgColor, 20%);
+  @activeDropShadowColor: darken(@bgColor, 50%);
+  @borderColor: lighten(@bgColor, 15%);
 
   position: relative;
-
   color: @color;
-  background-color: @bgcolor;
-  text-shadow: 0 0 1px darken(@bgcolor, 40%);
-  border-bottom: 1px lighten(@bgcolor, 15%) solid;
-
+  background-color: @bgColor;
+  text-shadow: 0 0 1px @dropShadowColor;
+  border-bottom: 1px @borderColor solid;
 
   .label {
     position: absolute;
@@ -94,32 +98,26 @@ li.vote-option {
     &:after { content: '"'; }
   }
 
-
-  &.active {
-    color: lighten(@color, 500%);
-    background-color: darken(@bgcolor, 20%);
-    text-shadow: 0 0 1px darken(@bgcolor, 50%);
-  }
-
-
   .smiley {
     position: absolute;
     top: 0.2em;
     left: 0.2em;
     bottom: 0.2em;
-    width: 2em;;
-    svg *{
-      stroke: currentColor;
-      fill: transparent;
-      stroke-width: 5;
-      filter: drop-shadow( 0 0 2px darken(@bgcolor, 40%));
-    }
+    width: 2em;
+    .icon(@color, @bgColor);
   }
+
+  &.active {
+    color: @activeColor;
+    background-color: @activeBgColor;
+    text-shadow: 0 0 1px @activeDropShadowColor;
+    .smiley { .icon(@activeColor, @activeBgColor); }
+  }
+
 
   @media screen and (min-height: 550px) {
     .extra { font-size: 0.65em }
   }
-
   @media screen and (max-height: 550px) {
     .label { font-size: 0.9em; }
     .extra { font-size: 0.6em; top: 2.15em; }
@@ -139,8 +137,6 @@ li.vote-option {
     .extra { font-size: 0.4em; top: 2.0em;}
     .smiley { left: -0.2em; }
   }
-
-
 }
 
 </style>

@@ -1,0 +1,14 @@
+.icon (@color, @bgColor) {
+  filter: drop-shadow( 0 0 1px darken(@bgColor, 40%));
+  svg  {
+    path, line, circle {
+      stroke: @color;
+      fill: transparent;
+    }
+  }
+}
+.icon-hflip () {
+  & svg {
+    transform: scale(-1, 1)
+  }
+}

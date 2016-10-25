@@ -1,7 +1,7 @@
 <template>
   <button
     class="nav-button"
-    :class="{active: isActive}"
+    :class="{active: isActive, left: direction==='left', right: direction==='right' }"
     @click="onClick"
     @mousedown="activate"
     @mouseup="deactivate"
@@ -9,24 +9,27 @@
     @touchend="onTouchEnd"
     type="button"
   >
-    <div class="chevron animated" :class="[direction]">
-      <svg width="100%" height="100%" viewBox="-35 -60 70 120" xmlns="http://www.w3.org/2000/svg">
-        <path d="M -25 -60 L 35 0 L -25 60 L -35 50 L 15 0 L -35 -50 z" />
-      </svg>
-    </div>
+    <icon name="chevron" class="chevron" :class="{left: direction==='left', right: direction==='right'}"></icon>
+    <icon v-if="isToRestart" name="chevron" class="chevron left double-back" ></icon>
     <div v-if="info" class="button-info">{{info}}</div>
     <div class="button-main">{{label}}</div>
   </button>
 </template>
 <script>
+import Icon from './Icon.vue'
+
 var touchEnabled = false
 
 export default {
+  components: {Icon},
   props: ['label', 'page', 'info', 'direction'],
   data () {
     return {
       isActive: false
     }
+  },
+  computed: {
+    isToRestart () { return this.$route.path === '/reset' }
   },
   methods: {
     doAction () {
@@ -58,52 +61,49 @@ export default {
 }
 </script>
 <style lang="less">
+@import '../assets/icon.less';
 
 button.nav-button {
 
-  @bgcolor: #d6975c;
-  background-color: @bgcolor;
-  color: #fff;
+  @color: #fff;
+  @bgColor: #d6975c;
+  @dropShadowColor: darken(@bgColor, 40%);
+  @activeBgColor: darken(@bgColor, 20%);
+  @activeDropShadowColor: darken(@bgColor, 55%);
+
   position: relative;
   width: 100%;
   overflow: hidden;
+  color: @color;
+  background-color: @bgColor;
+  text-shadow: 0 0 1px @dropShadowColor;
+  &.active {
+    background-color: @activeBgColor;
+    text-shadow: @activeDropShadowColor;
+  }
 
-  .button-main {
-    text-transform: uppercase;
-  }
-  .button-info {
-    font-size: 0.6em;
-  }
+  .button-main { text-transform: uppercase; }
+  .button-info { font-size: 0.6em; }
 
   @media screen and (max-height: 350px) {
     .button-main { font-size: 0.8em; }
     .button-info { font-size: 0.5em; }
   }
 
-  &.active {
-    background-color: darken(@bgcolor, 20%);
-    text-shadow: darken(@bgcolor, 55%);
-  }
-  text-shadow: 0 0 1px darken(@bgcolor, 40%);
   .chevron {
+    .icon(@color, @bgColor);
     @w: 21px;
     @h: 36px;
-    width: @w;
     position: absolute;
-    right: @w;
+    width: @w;
     top: 50%;
     margin-top: -@h/2;
-    svg {
-      filter: drop-shadow( 0 0 1px darken(@bgcolor, 40%));
-      path {
-        fill: currentColor;
-      }
-    }
     &.left {
-      svg path {
-        transform: scale(-1, 1)
-      }
       left: @w/2;
+      .icon-hflip();
+    }
+    &.double-back {
+      left: @w;
     }
     &.right {
       right: @w/2;

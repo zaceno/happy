@@ -4,7 +4,11 @@
     next-button-label="Vote"
     next-button-info="When you're ready, tap here to..."
   >
-    <panel class="prompt-panel">Please hand the phone to the first person to vote</panel>
+    <panel class="prompt-panel">
+      Please hand the phone to the first person to vote
+    </div>
+
+    </panel>
   </page>
 </template>
 <script>
@@ -29,5 +33,4 @@ export default {
 .prompt-panel {
   height: 80%;
 }
-
 </style>

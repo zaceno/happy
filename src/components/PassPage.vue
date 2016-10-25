@@ -2,7 +2,7 @@
   <page
     next-page="/vote"
     next-button-label="Vote"
-    next-button-info="Are you the next person? Tap here to..."
+    next-button-info="Are you the next person? Tap to..."
   >
   <nav-button
     class="result-button"

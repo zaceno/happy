@@ -24,7 +24,9 @@ export default {
   components: { NextStepButton },
   computed: {
     nextDirection () {
-      return direction(this.$route.path, this.nextPage)
+      var d = direction(this.$route.path, this.nextPage)
+      console.log('DIRECTION', this.$route.path, this.nextPage, d)
+      return d
     }
   }
 }
