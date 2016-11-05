@@ -9,9 +9,9 @@
 
 .slide-transition() {
   @duration: 0.3s;
-  .t () { transition: left @duration }
-  .ol () { left: -100%; }
-  .or () { left: 100%;  }
+  .t () { transition: @duration ease-in-out; }
+  .ol () { transform: translateX(-100%); }
+  .or () { transform: translateX(100%);  }
   &.slide-right-enter { .or(); }
   &.slide-right-enter-active { .t() }
   &.slide-right-leave-active { .ol(); .t(); }
