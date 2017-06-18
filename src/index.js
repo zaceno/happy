@@ -1,6 +1,3 @@
-//DOING: make it nice and modular
-//TODO: make the layout work for web-mode on iphone se, as well as scale up responsively for higher heights of devices
-//TODO: actual build-system, less parsing, with live-reload, dev server built in et c.
 const {renderer} = require('zx-app-utils/dom/renderer')
 const model = require('./model')
 const {AppContainer}  = require('./components/misc')
