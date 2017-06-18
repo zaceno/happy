@@ -1,0 +1,16 @@
+
+//Transitions
+.slide-forward-leave,
+.slide-back-enter {
+    transform: translateX(-110%);
+}
+
+.slide-back-leave,
+.slide-forward-enter {
+    transform: translateX(110%);
+}
+
+.slide-forward-run,
+.slide-back-run {
+    transition: transform 0.35s ease-in-out;
+}

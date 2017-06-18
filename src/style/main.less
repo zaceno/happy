@@ -1,0 +1,152 @@
+@import './icon-mixin';
+@import './slide-transition';
+
+@pagebg: #fff;
+@panelbg: #eee;
+@panelcolor: #555;
+@buttonbg: #d6975c;
+@buttoncolor: #fff;
+@optionbg: #3cb8ea;
+@optioncolor: #fff;
+
+
+*, ul, li, button, input, body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 20px;
+}
+
+html, body, #app {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #aaa;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+
+}
+
+.page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+
+    .panel {
+        flex: 1 0 auto;
+        margin: 0.5em;
+        background: @panelbg;
+        border: 1px darken(@panelbg, 20%) solid;
+        padding: 0.5em;
+        color: @panelcolor;
+        text-shadow: 0px 1px 1px lighten(@panelcolor, 100%);
+    }
+
+    button.nav-button {
+        flex: 0 0 auto;
+        position: relative;
+        height: 15%;
+
+        color: @buttoncolor;
+        background-color: @buttonbg;
+        text-shadow: 0 0 1px darken(@buttonbg, 50%);
+        &.active {
+            background-color: darken(@buttonbg, 20%);
+            text-shadow: darken(@buttonbg, 55%);
+        }
+        .button-text-extra { font-size: 0.6em; }
+        .button-text-main {
+            text-transform: uppercase;
+            font-size: 1.2em;
+        }
+
+        &.forward .icon {
+            .icon(@buttoncolor, @buttonbg);
+            position: absolute;
+            top: 20%;
+            right: 0;
+            height: 60%;
+            width: 2em;
+        }
+
+        &.back .icon {
+            .icon(@buttoncolor, @buttonbg);
+            position: absolute;
+            top: 20%;
+            left: 0;
+            height: 60%;
+            width: 2em;
+        }
+    }
+}
+
+ul.option-selector {
+    list-style-type: none;
+    text-indent: none;
+    display: flex;
+    flex-direction: column;
+    margin: 0.5em;
+    margin-top: 0;
+
+    li{
+        @iconwidth: 2em;
+        @padding: 0.5em;
+        flex: 1 1 auto;
+        padding: @padding;
+        padding-left: @iconwidth + 2*@padding;
+        position: relative;
+        color: @optioncolor;
+        background: @optionbg;
+        text-shadow: 0 0 1px darken(@optionbg, 40%);
+        border-bottom: 1px lighten(@optionbg, 15%) solid;
+
+        &.active {
+            color: lighten(@optioncolor, 500%);
+            background: darken(@optionbg, 20%);
+            text-shadow: 0 0 1px darken(@optionbg, 50%)
+        }
+
+        .icon {
+            .icon(@optioncolor, @optionbg);
+            position: absolute;
+            left: @padding;
+            top: @padding;
+            bottom: @padding;
+            width: @iconwidth;
+        }
+
+        .label {
+            font-size: 0.9em;
+        }
+        .extra {
+            font-size: 0.65em;
+            font-style: italic;
+            &:before { content: '"'; }
+            &:after { content: '"'; }
+        }
+    }
+}
+
+.result-display {
+    color: @panelcolor;
+    font-size: 2.5em;
+    display: block;
+    width: 4em;
+    height: 4em;
+    border-radius: 2em;
+    border: 3px @panelcolor solid;
+    background: @pagebg;
+    text-align: center;
+    line-height: 3.8em;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+}
+
+
