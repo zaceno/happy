@@ -1,14 +1,14 @@
-const model = require('../model')
 const Voter = require('../components/voter')
 const {Panel} = require('../components/misc')
 const Page = require('../components/page')
+const {commit: commitVote} = require('../model/votes')
 
 module.exports = _ => Page({
         name: 'vote',
         target: 'pass',
         extra: "Make your selection, then tap here to...",
         text: "Cast Vote",
-        onGo: model.votes.commit
+        onGo: commitVote
     },
     [
         Panel({}, ['How happy are you about your job?']),

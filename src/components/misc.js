@@ -1,9 +1,9 @@
-const {h} = require('zx-app-utils/dom')
+const h = require('zx-app-utils/dom/h')
 const hyperx = require('hyperx')
 const html = hyperx(h, {attrToProp: false})
 const Icon = require('./icon')
 
-const AppContainer = ({page}) => html`<div class="app-container">${page}</div>`
+const AppContainer = ({page}) => html`<div class="app-container">${page()}</div>`
 
 const Panel = (props, children) => html`<div class="panel">${children}</div>`
 

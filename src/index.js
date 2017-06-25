@@ -1,5 +1,6 @@
-const {renderer} = require('zx-app-utils/dom/renderer')
-const model = require('./model')
+const app = require('zx-app-utils/app/main')
+const store = require('./model/store')
+const {page: currentPage} = require('./model/navigation')
 const {AppContainer}  = require('./components/misc')
 const pages = {
     initial: require('./pages/initial'),
@@ -9,8 +10,4 @@ const pages = {
     result:  require('./pages/result'),
     reset:   require('./pages/reset')
 }
-const CurrentPage = _ => pages[model.navigation.page()]()
-const MainView = _ => AppContainer({page: CurrentPage()})
-const render = renderer(MainView)
-model.store.onupdate(render)
-render()
+app({store, view: _ => AppContainer({page: pages[currentPage()]})})

@@ -1,5 +1,5 @@
 const hyperx = require('hyperx')
-const {h} = require('zx-app-utils/dom')
+const h = require('zx-app-utils/dom/h')
 const html = hyperx(h, {attrToProp: false})
 
 

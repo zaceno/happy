@@ -7,7 +7,7 @@ module.exports = _ => Page(
         name: 'reset',
         target: 'start',
         extra: 'Tap here to...',
-        text: 'Start again'
+        text: 'Start again',
     },
     [
         Panel({}, [

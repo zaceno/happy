@@ -1,8 +1,8 @@
-const {h} = require('zx-app-utils/dom')
+const h = require('zx-app-utils/dom/h')
 const transition = require('zx-app-utils/transition')
-const model = require('../model')
+const {direction} = require('../model/navigation')
 const NavButton = require('./navbutton')
-const tx = transition.both(_ => ({name: 'slide-' + model.navigation.direction(), time: 350}))
+const tx = transition.both(_ => ({name: 'slide-' + direction(), time: 350}))
 
 module.exports = ({name, target, text, extra, onGo}, children) => tx(h(
     'div',
