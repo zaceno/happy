@@ -16,12 +16,11 @@
     "live-server": "^1.2.0",
     "npm-run-all": "^4.0.2",
     "uglify-es": "^3.0.18",
-    "uglifyify": "^4.0.1",
     "watchify": "^3.9.0"
   },
   "scripts": {
     "liveserver": "live-server --watch=./dist/ --open=./dist/index.html",
-    "build:js": "browserify src/index.js -t hyperxify | uglifyjs -c -m > dist/script.js",
+    "build:js": "browserify src/index.js -t hyperxify | uglifyjs -m -c > dist/script.js",
     "build:html": "cp src/index.html dist/index.html",
     "build:css": "lessc --clean-css src/style/main.less > dist/style.css",
     "build": "npm run build:js && npm run build:html && npm run build:css",
