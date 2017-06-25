@@ -1,1 +1,174 @@
-.slide-back-enter,.slide-forward-leave{transform:translateX(-110%)}.slide-back-leave,.slide-forward-enter{transform:translateX(110%)}.slide-back-run,.slide-forward-run{transition:transform .35s ease-in-out}*,body,button,input,li,ul{margin:0;padding:0;border:0;font-family:Helvetica,Arial,sans-serif;font-size:20px}#app,body,html{width:100%;height:100%;position:relative;background:#aaa;-webkit-tap-highlight-color:transparent}.page{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;background:#fff}.page .panel{flex:1 0 auto;margin:.5em;background:#eee;border:1px #bbb solid;padding:.5em;color:#555;text-shadow:0 1px 1px #fff}.page button.nav-button{flex:0 0 auto;position:relative;height:15%;color:#fff;background-color:#d6975c;text-shadow:0 0 1px #29190a}.page button.nav-button.active{background-color:#a36429;text-shadow:#140c05}.page button.nav-button .button-text-extra{font-size:.6em}.page button.nav-button .button-text-main{text-transform:uppercase;font-size:1.2em}.page button.nav-button.forward .icon{filter:drop-shadow(0 0 1px #523214);position:absolute;top:20%;right:0;height:60%;width:2em}.page button.nav-button.forward .icon svg circle,.page button.nav-button.forward .icon svg line,.page button.nav-button.forward .icon svg path{stroke:#fff;fill:transparent}.page button.nav-button.forward .icon.hflip svg{transform:scale(-1,1)}.page button.nav-button.back .icon{filter:drop-shadow(0 0 1px #523214);position:absolute;top:20%;left:0;height:60%;width:2em}.page button.nav-button.back .icon svg circle,.page button.nav-button.back .icon svg line,.page button.nav-button.back .icon svg path{stroke:#fff;fill:transparent}.page button.nav-button.back .icon.hflip svg{transform:scale(-1,1)}ul.option-selector{list-style-type:none;text-indent:none;display:flex;flex-direction:column;margin:.5em;margin-top:0}ul.option-selector li{flex:1 1 auto;padding:.5em;padding-left:3em;position:relative;color:#fff;background:#3cb8ea;text-shadow:0 0 1px #093c51;border-bottom:1px #81d1f1 solid}ul.option-selector li.active{color:#fff;background:#1381ad;text-shadow:0 0 1px #041a23}ul.option-selector li .icon{filter:drop-shadow(0 0 1px #093c51);position:absolute;left:.5em;top:.5em;bottom:.5em;width:2em}ul.option-selector li .icon svg circle,ul.option-selector li .icon svg line,ul.option-selector li .icon svg path{stroke:#fff;fill:transparent}ul.option-selector li .icon.hflip svg{transform:scale(-1,1)}ul.option-selector li .label{font-size:.9em}ul.option-selector li .extra{font-size:.65em;font-style:italic}ul.option-selector li .extra:before{content:'"'}ul.option-selector li .extra:after{content:'"'}.result-display{color:#555;font-size:2.5em;display:block;width:4em;height:4em;border-radius:2em;border:3px #555 solid;background:#fff;text-align:center;line-height:3.8em;box-sizing:border-box;margin-left:auto;margin-right:auto;margin-top:1em}
+.slide-forward-leave,
+.slide-back-enter {
+  transform: translateX(-110%);
+}
+.slide-back-leave,
+.slide-forward-enter {
+  transform: translateX(110%);
+}
+.slide-forward-run,
+.slide-back-run {
+  transition: transform 0.35s ease-in-out;
+}
+*,
+ul,
+li,
+button,
+input,
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 20px;
+}
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #aaa;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+.page .panel {
+  flex: 1 0 auto;
+  margin: 0.5em;
+  background: #eeeeee;
+  border: 1px #bbbbbb solid;
+  padding: 0.5em;
+  color: #555555;
+  text-shadow: 0px 1px 1px #ffffff;
+}
+.page button.nav-button {
+  flex: 0 0 auto;
+  position: relative;
+  height: 15%;
+  color: #ffffff;
+  background-color: #d6975c;
+  text-shadow: 0 0 1px #29190a;
+}
+.page button.nav-button.active {
+  background-color: #a36429;
+  text-shadow: #140c05;
+}
+.page button.nav-button .button-text-extra {
+  font-size: 0.6em;
+}
+.page button.nav-button .button-text-main {
+  text-transform: uppercase;
+  font-size: 1.2em;
+}
+.page button.nav-button.forward .icon {
+  filter: drop-shadow(0 0 1px #523214);
+  position: absolute;
+  top: 20%;
+  right: 0;
+  height: 60%;
+  width: 2em;
+}
+.page button.nav-button.forward .icon svg path,
+.page button.nav-button.forward .icon svg line,
+.page button.nav-button.forward .icon svg circle {
+  stroke: #ffffff;
+  fill: transparent;
+}
+.page button.nav-button.forward .icon.hflip svg {
+  transform: scale(-1, 1);
+}
+.page button.nav-button.back .icon {
+  filter: drop-shadow(0 0 1px #523214);
+  position: absolute;
+  top: 20%;
+  left: 0;
+  height: 60%;
+  width: 2em;
+}
+.page button.nav-button.back .icon svg path,
+.page button.nav-button.back .icon svg line,
+.page button.nav-button.back .icon svg circle {
+  stroke: #ffffff;
+  fill: transparent;
+}
+.page button.nav-button.back .icon.hflip svg {
+  transform: scale(-1, 1);
+}
+ul.option-selector {
+  list-style-type: none;
+  text-indent: none;
+  display: flex;
+  flex-direction: column;
+  margin: 0.5em;
+  margin-top: 0;
+}
+ul.option-selector li {
+  flex: 1 1 auto;
+  padding: 0.5em;
+  padding-left: 3em;
+  position: relative;
+  color: #ffffff;
+  background: #3cb8ea;
+  text-shadow: 0 0 1px #093c51;
+  border-bottom: 1px #81d1f1 solid;
+}
+ul.option-selector li.active {
+  color: #ffffff;
+  background: #1381ad;
+  text-shadow: 0 0 1px #041a23;
+}
+ul.option-selector li .icon {
+  filter: drop-shadow(0 0 1px #093c51);
+  position: absolute;
+  left: 0.5em;
+  top: 0.5em;
+  bottom: 0.5em;
+  width: 2em;
+}
+ul.option-selector li .icon svg path,
+ul.option-selector li .icon svg line,
+ul.option-selector li .icon svg circle {
+  stroke: #ffffff;
+  fill: transparent;
+}
+ul.option-selector li .icon.hflip svg {
+  transform: scale(-1, 1);
+}
+ul.option-selector li .label {
+  font-size: 0.9em;
+}
+ul.option-selector li .extra {
+  font-size: 0.65em;
+  font-style: italic;
+}
+ul.option-selector li .extra:before {
+  content: '"';
+}
+ul.option-selector li .extra:after {
+  content: '"';
+}
+.result-display {
+  color: #555555;
+  font-size: 2.5em;
+  display: block;
+  width: 4em;
+  height: 4em;
+  border-radius: 2em;
+  border: 3px #555555 solid;
+  background: #ffffff;
+  text-align: center;
+  line-height: 3.8em;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1em;
+}
