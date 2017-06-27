@@ -1,19 +1,14 @@
-const h = require('zx-app-utils/dom/h')
+const {h} = require('hyperapp')
 const hyperx = require('hyperx')
 const html = hyperx(h, {attrToProp: false})
-const {go, directionTo} = require('../model/navigation')
-const {Button, Chevron} = require('./misc')
+const Button = require('./button')
+const Chevron = require('./chevron')
 
-module.exports = ({target, text, extra, onGo}) => {
-    const direction = directionTo(target)
+module.exports = ({goTo, target, direction, text, extra}) => {
     return Button(
         {
             cls: `nav-button ${direction}`,
-            activate: ev => {
-                ev.currentTarget.classList.add('active')
-                go(target)
-                onGo && onGo()
-            }
+            action: _ => goTo([target, direction]),
         },
         [
             Chevron({direction}),

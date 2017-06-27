@@ -1,7 +1,6 @@
 const hyperx = require('hyperx')
-const h = require('zx-app-utils/dom/h')
+const {h} = require('hyperapp')
 const html = hyperx(h, {attrToProp: false})
-const {set: setVote, get: getVote} = require('../model/votes')
 const Icon = require('./icon')
 
 const options = [
@@ -47,12 +46,12 @@ const options = [
 
 
 
-module.exports = _ => html`<ul class="option-selector">
+module.exports = ({value:current, set}) => html`<ul class="option-selector">
     ${options.map(({value, icon, label, extra}) => html`
     <li
-        onmousedown=${_ => setVote(value)}
-        ontouchstart=${_ => setVote(value)}
-        class=${(value === getVote() ? 'active' : '')}
+        onmousedown=${_ => set(value)}
+        ontouchstart=${_ => set(value)}
+        class=${(value === current ? 'active' : '')}
     >
         ${Icon({name:icon})}
         <p class="label">${label}</p>

@@ -1,12 +1,12 @@
 {
   "name": "zx-happy",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "description": "\"A web app for anonymously collecting the average happiness (on a scale 1-5) of a team\"",
-  "main": "index.js",
+  "main": "dist/index.html",
   "dependencies": {
-    "hyperx": "^2.3.0",
-    "zx-app-utils": "^0.0.3"
+    "hyperapp": "^0.9.3",
+    "hyperx": "^2.3.0"
   },
   "devDependencies": {
     "browserify": "^14.4.0",
@@ -16,6 +16,7 @@
     "live-server": "^1.2.0",
     "npm-run-all": "^4.0.2",
     "uglify-es": "^3.0.18",
+    "watch-lessc": "0.0.3",
     "watchify": "^3.9.0"
   },
   "scripts": {

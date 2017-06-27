@@ -1,13 +1,48 @@
-const app = require('zx-app-utils/app/main')
-const store = require('./model/store')
-const {page: currentPage} = require('./model/navigation')
-const {AppContainer}  = require('./components/misc')
-const pages = {
-    initial: require('./pages/initial'),
-    start:   require('./pages/start'),
-    vote:    require('./pages/vote'),
-    pass:    require('./pages/pass'),
-    result:  require('./pages/result'),
-    reset:   require('./pages/reset')
-}
-app({store, view: _ => AppContainer({page: pages[currentPage()]})})
+const {app} = require('hyperapp')
+const AppContainer = require('./components/app-container')
+const pages = require('./pages')
+
+app({
+    state: {
+        votes: {
+            current: 0,
+            sum: 0,
+            count: 0,
+        },
+        page: {
+            current: 'initial',
+            previous: null
+        }
+    },
+    actions: {
+        goTo (state, actions, [current, direction], emit) {
+            emit('goTo:' + current)
+            state.page = {current, direction}
+            return state
+        },
+        votes: {
+            set (state, actions, vote) {
+                state.votes.current = vote
+                return state
+            },
+            commit (state) {
+                if (state.votes.current === 0) return state
+                state.votes.sum = state.votes.sum + state.votes.current
+                state.votes.count = state.votes.count + 1
+                state.votes.current = 0
+                return state
+            },
+            reset (state) {
+                state.votes.sum = 0
+                state.votes.count = 0
+                state.votes.current = 0
+                return state
+            }
+        }
+    },
+    events: {
+        'goTo:reset': (state, actions) => setTimeout(actions.votes.reset,0),
+        'goTo:pass': (state, actions) => setTimeout(actions.votes.commit, 0)
+    },
+    view: (state, actions) => AppContainer({}, [pages[state.page.current](state, actions)])
+})

@@ -1,17 +1,24 @@
-const {Panel} = require('../components/misc')
+const Panel = require('../components/panel')
 const NavButton = require('../components/navbutton')
 const Page = require('../components/page')
 
-module.exports = _ => Page(
+module.exports = (state, actions) => Page(
     {
         name: 'pass',
-        target: 'vote',
-        extra: "Are you the next person? Tap here to...",
-        text: "Vote",
+        direction: state.page.direction,
+        next: {
+            goTo: actions.goTo,
+            target: 'vote',
+            direction: 'back',
+            extra: "Are you the next person? Tap here to...",
+            text: "Vote",
+        }
     },
     [
         NavButton({
+            goTo: actions.goTo,
             target: 'result',
+            direction: 'forward',
             extra: 'Has everyone voted? Tap here to...',
             text: 'Check Result'
         }),

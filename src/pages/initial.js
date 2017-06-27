@@ -1,11 +1,17 @@
-const {Panel} = require('../components/misc')
+const Panel = require('../components/panel')
 const Page = require('../components/page')
-module.exports = _ => Page(
+
+module.exports = (state, actions) => Page(
     {
         name: 'initial',
-        target: 'start',
-        extra: 'Tap here to...',
-        text: 'Start'
+        direction: state.page.direction,
+        next: {
+            goTo: actions.goTo,
+            target: 'start',
+            direction: 'forward',
+            extra: 'Tap here to...',
+            text: 'Start',
+        }
     },
     [
         Panel({}, ['Happiness Index Calculator'])
