@@ -1,6 +1,6 @@
 # Happiness Index Calculator
 
-Try it out at [[https://zaceno.github.io/happy]]
+Try it out at https://zaceno.github.io/happy
 
 This web based app is meant to be loaded on a phone, and passed around among members of a work-team, letting each one anonymously answer the question: "How happy are you about your job?" on a scale of 1 (very unhappy) to 5 (very happy). The *average* value, is then presented as the "happiness Index".
 
