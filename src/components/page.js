@@ -1,18 +1,24 @@
 const NavButton = require('./navbutton')
-const transitions = require('../transitions')
+const {combine, enter, leave} = require('hyperapp-transitions')
+const cache = {direction: null}
 
-
-const cache = {
-    direction: null
+const pageSlideOpts = _ => {
+    return {
+        name: 'slide-' + cache.direction,
+        easing: 'ease-in-out',
+        time: 400,
+        ready: 420,
+    }
 }
+
+const pageSlide = combine(
+    enter(pageSlideOpts),
+    leave(pageSlideOpts)
+)
 
 module.exports = ({name, direction, next}, children) => {
     cache.direction = direction
-    const tx = transitions.both(_ => ({
-        name: 'slide-' + cache.direction,
-        time: 300
-    }))
-    return tx({
+    return pageSlide({
         'tag': 'div',
         data: {
             class: 'page',

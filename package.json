@@ -6,6 +6,7 @@
   "main": "dist/index.html",
   "dependencies": {
     "hyperapp": "^0.9.3",
+    "hyperapp-transitions": "^0.5.1",
     "hyperx": "^2.3.0"
   },
   "devDependencies": {
@@ -32,7 +33,7 @@
   "author": "Zacharias Enochsson",
   "license": "MIT",
   "homepage": "https://zaceno.github.io/happy",
-  "repository":{
+  "repository": {
     "type": "git",
     "url": "https://github.com/zaceno/happy.git"
   }

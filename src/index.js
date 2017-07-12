@@ -11,7 +11,7 @@ app({
         },
         page: {
             current: 'initial',
-            previous: null
+            direction: null,
         }
     },
     actions: {
