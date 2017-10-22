@@ -1,8 +1,8 @@
-const Panel = require('../components/panel')
-const NavButton = require('../components/navbutton')
-const Page = require('../components/page')
+import Panel from '../components/panel'
+import NavButton from '../components/navbutton'
+import Page from '../components/page'
 
-module.exports = (state, actions) => Page(
+export default (state, actions) => Page(
     {
         name: 'pass',
         direction: state.page.direction,

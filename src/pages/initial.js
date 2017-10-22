@@ -1,7 +1,7 @@
-const Panel = require('../components/panel')
-const Page = require('../components/page')
+import Panel from '../components/panel'
+import Page from '../components/page'
 
-module.exports = (state, actions) => Page(
+export default (state, actions) => Page(
     {
         name: 'initial',
         direction: state.page.direction,

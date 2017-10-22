@@ -1,6 +1,7 @@
-const {app} = require('hyperapp')
-const AppContainer = require('./components/app-container')
-const pages = require('./pages')
+import {app} from 'hyperapp'
+import AppContainer from './components/app-container'
+import pages from './pages'
+import style from './style/main.less'
 
 app({
     state: {

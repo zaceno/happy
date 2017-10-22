@@ -1,4 +1,4 @@
-const tags = require('./tags')
+import tags from './tags'
 const [button] = tags('button')
 
 const onActivate = action => ev => {
@@ -7,7 +7,7 @@ const onActivate = action => ev => {
     action()
 }
 
-module.exports = ({cls, action}, children) => button({
+export default ({cls, action}, children) => button({
     class: cls,
     ontouchstart: onActivate(action),
     onmousedown: onActivate(action)

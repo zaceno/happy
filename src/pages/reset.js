@@ -1,8 +1,8 @@
-const Panel = require('../components/panel')
-const Result = require('../components/result')
-const Page = require('../components/page')
+import Panel from '../components/panel'
+import Result from '../components/result'
+import Page from '../components/page'
 
-module.exports = (state, actions) => Page(
+export default  (state, actions) => Page(
     {
         name: 'reset',
         direction: state.page.direction,

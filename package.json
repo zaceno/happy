@@ -5,29 +5,22 @@
   "description": "\"A web app for anonymously collecting the average happiness (on a scale 1-5) of a team\"",
   "main": "dist/index.html",
   "dependencies": {
-    "@hyperapp/html": "^0.5.1",
     "hyperapp": "^0.9.3",
     "hyperapp-transitions": "^0.5.1"
   },
   "devDependencies": {
-    "browserify": "^14.4.0",
-    "less": "^2.7.2",
-    "less-plugin-clean-css": "^1.5.1",
-    "live-server": "^1.2.0",
-    "npm-run-all": "^4.0.2",
-    "uglify-es": "^3.0.20",
-    "watch-lessc": "0.0.3",
-    "watchify": "^3.9.0"
+    "rollup": "^0.50.0",
+    "rollup-plugin-commonjs": "^8.2.4",
+    "rollup-plugin-lessify": "^1.0.2",
+    "rollup-plugin-livereload": "^0.6.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-serve": "^0.4.2",
+    "rollup-plugin-uglify": "^2.0.1",
+    "uglify-es": "^3.0.20"
   },
   "scripts": {
-    "liveserver": "live-server --watch=./dist/ --open=./dist/index.html",
-    "build:js": "browserify src/index.js | uglifyjs -m -c > dist/script.js",
-    "build:html": "cp src/index.html dist/index.html",
-    "build:css": "lessc --clean-css src/style/main.less > dist/style.css",
-    "build": "npm run build:js && npm run build:html && npm run build:css",
-    "watch:js": "watchify src/index.js -o dist/script.js",
-    "watch:css": "watch-lessc -i src/style/main.less -d src/ -o dist/style.css",
-    "dev": "run-p liveserver watch:*"
+    "dev": "rollup -c -w",
+    "build": "rollup -c"
   },
   "author": "Zacharias Enochsson",
   "license": "MIT",

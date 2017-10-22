@@ -1,8 +1,8 @@
-const Voter = require('../components/voter')
-const Panel = require('../components/panel')
-const Page = require('../components/page')
+import Voter from '../components/voter'
+import Panel from '../components/panel'
+import Page from '../components/page'
 
-module.exports = (state, actions) => Page({
+export default (state, actions) => Page({
         name: 'vote',
         direction: state.page.direction,
         next: {

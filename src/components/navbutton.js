@@ -1,8 +1,8 @@
-const {h} = require('hyperapp')
-const Button = require('./button')
-const Chevron = require('./chevron')
+import {h} from 'hyperapp'
+import Button from './button'
+import Chevron from './chevron'
 
-module.exports = ({goTo, target, direction, text, extra}) => {
+export default ({goTo, target, direction, text, extra}) => {
     return Button(
         {
             cls: `nav-button ${direction}`,

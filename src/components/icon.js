@@ -1,9 +1,9 @@
-const tags = require('./tags')
+import tags from './tags'
 const [div, _svg, path, circle, line] = tags('div, svg, path, circle, line')
 
 const svg = (props, children) => {
     props.width = '100%',
-    props.heihgt = '100%',
+    props.height = '100%',
     props.xmlns = 'http://www.w3.org/2000/svg'
     return _svg(props, children)
 }
@@ -66,4 +66,4 @@ const icons = {
     ])
 }
 
-module.exports = ({name, effect}) => div({class: `icon ${effect}`}, [icons[name]])
+export default ({name, effect}) => div({class: `icon ${effect}`}, [icons[name]])

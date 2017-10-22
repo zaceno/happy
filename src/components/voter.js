@@ -1,6 +1,6 @@
-const tags = require('./tags')
+import tags from './tags'
 const [ul, li, p] = tags('ul, li, p')
-const Icon = require('./icon')
+import Icon from './icon'
 
 const options = [
     {
@@ -45,7 +45,7 @@ const options = [
 
 
 
-module.exports = ({value:current, set}) => ul(
+export default ({value:current, set}) => ul(
     {class: 'option-selector'},
     options.map(({value, icon, label, extra}) => li(
         {

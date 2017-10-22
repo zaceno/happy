@@ -1,9 +1,8 @@
-const pages = {
-    initial: require('./initial'),
-    start:   require('./start'),
-    vote:    require('./vote'),
-    pass:    require('./pass'),
-    result:  require('./result'),
-    reset:   require('./reset'),
-}
-module.exports = pages
+import initial from './initial'
+import start   from './start'
+import vote    from './vote'
+import pass    from './pass'
+import result  from './result'
+import reset   from './reset'
+
+export default {initial, start, vote, pass, result, reset}
