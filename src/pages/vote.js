@@ -2,11 +2,11 @@ import Voter from '../components/voter'
 import Panel from '../components/panel'
 import Page from '../components/page'
 
-export default (state, actions) => Page({
+export default ({direction, goTo, votes}) => Page({
         name: 'vote',
-        direction: state.page.direction,
+        direction,
         next: {
-            goTo: actions.goTo,
+            goTo,
             target: 'pass',
             direction: 'forward',
             extra: "Make your selection, then tap here to...",
@@ -16,8 +16,8 @@ export default (state, actions) => Page({
     [
         Panel({}, ['How happy are you about your job?']),
         Voter({
-            value: state.votes.current,
-            set: actions.votes.set
+            value: votes.state.current,
+            set: votes.actions.set
         })
     ]
 )

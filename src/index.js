@@ -1,49 +1,28 @@
-import {app} from 'hyperapp'
+import './style/main.less'
+import {app as core} from 'hyperapp'
+import events from 'hyperapp-events'
+const app = events(core)
+
+//modules
+import votes from './votes'
+import navigation from './navigation'
+
+//components
 import AppContainer from './components/app-container'
-import pages from './pages'
-import style from './style/main.less'
+import pages from './pages/index.js'
+
 
 app({
-    state: {
-        votes: {
-            current: 0,
-            sum: 0,
-            count: 0,
-        },
-        page: {
-            current: 'initial',
-            direction: null,
-        }
-    },
-    actions: {
-        goTo (state, actions, [current, direction], emit) {
-            emit('goTo:' + current)
-            state.page = {current, direction}
-            return state
-        },
-        votes: {
-            set (state, actions, vote) {
-                state.votes.current = vote
-                return state
-            },
-            commit (state) {
-                if (state.votes.current === 0) return state
-                state.votes.sum = state.votes.sum + state.votes.current
-                state.votes.count = state.votes.count + 1
-                state.votes.current = 0
-                return state
-            },
-            reset (state) {
-                state.votes.sum = 0
-                state.votes.count = 0
-                state.votes.current = 0
-                return state
-            }
-        }
-    },
+    modules: {votes, navigation},
     events: {
-        'goTo:reset': (state, actions) => setTimeout(actions.votes.reset,0),
-        'goTo:pass': (state, actions) => setTimeout(actions.votes.commit, 0)
+        'navigation:reset': (state, actions) => actions.votes.reset(),
+        'navigation:pass': (state, actions) => actions.votes.commit(),
     },
-    view: (state, actions) => AppContainer({}, [pages[state.page.current](state, actions)])
+    view: (state, actions) => AppContainer({}, [
+        pages[state.navigation.current]({
+            direction: state.navigation.direction,
+            goTo: actions.navigation.goTo,
+            votes: {state: state.votes, actions: actions.votes}
+        })
+    ])
 })

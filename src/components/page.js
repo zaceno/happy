@@ -2,24 +2,29 @@ import {h} from 'hyperapp'
 import NavButton from './navbutton'
 import transitions from 'hyperapp-transitions'
 
-const {combine, enter, leave} = transitions
-const cache = {direction: null}
 
-const pageSlideOpts = _ => {
-    return {
-        name: 'slide-' + cache.direction,
+const pageSlide = (() => {
+    const {combine, enter, leave} = transitions    
+    var direction
+
+    var opts = _ => ({
+        name: 'slide-' + direction,
         easing: 'ease-in-out',
         time: 400,
-        ready: 420,
+        ready: 500,
+    })
+
+    return d => {
+        direction = d
+        return combine(enter(opts), leave(opts))
     }
-}
+})()
 
-const pageSlide = combine(
-    enter(pageSlideOpts),
-    leave(pageSlideOpts)
-)
-
-export default ({name, direction, next}, children) => {
-    cache.direction = direction
-    return pageSlide(h('div', {class: 'page', key: name }, [].concat(children, NavButton(next))))
-}
+export default ({name, direction, next}, children) => pageSlide(direction)(h(
+    'div',
+    {
+        class: 'page',
+        key: name
+    },
+    [].concat(children, NavButton(next))
+))

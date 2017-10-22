@@ -2,12 +2,12 @@ import Panel from '../components/panel'
 import NavButton from '../components/navbutton'
 import Page from '../components/page'
 
-export default (state, actions) => Page(
+export default ({direction, goTo}) => Page(
     {
         name: 'pass',
-        direction: state.page.direction,
+        direction,
         next: {
-            goTo: actions.goTo,
+            goTo,
             target: 'vote',
             direction: 'back',
             extra: "Are you the next person? Tap here to...",
@@ -16,7 +16,7 @@ export default (state, actions) => Page(
     },
     [
         NavButton({
-            goTo: actions.goTo,
+            goTo,
             target: 'result',
             direction: 'forward',
             extra: 'Has everyone voted? Tap here to...',

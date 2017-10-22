@@ -2,12 +2,12 @@ import Panel from '../components/panel'
 import Result from '../components/result'
 import Page from '../components/page'
 
-export default  (state, actions) => Page(
+export default  ({direction, goTo, votes}) => Page(
     {
         name: 'reset',
-        direction: state.page.direction,
+        direction,
         next: {
-            goTo: actions.goTo,
+            goTo,
             target: 'start',
             direction: 'back',
             extra: 'Tap here to...',
@@ -17,7 +17,10 @@ export default  (state, actions) => Page(
     [
         Panel({}, [
             'Votes cleared from memory',
-            Result(state.votes)
+            Result({
+                count: votes.state.count,
+                sum: votes.state.sum,
+            })
         ])
     ]
 )

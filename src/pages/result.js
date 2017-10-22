@@ -2,12 +2,12 @@ import Result from '../components/result'
 import Page from '../components/page'
 import Panel from '../components/panel'
 
-export default (state, actions) => Page(
+export default ({direction, goTo, votes}) => Page(
     {
         name: 'result',
-        direction: state.page.direction,
+        direction,
         next: {
-            goTo: actions.goTo,
+            goTo,
             target: 'reset',
             direction: 'forward',
             extra: 'Need to do it again? Tap here to...',
@@ -17,7 +17,10 @@ export default (state, actions) => Page(
     [
         Panel({}, [
             'Happiness Index',
-            Result(state.votes)
+            Result({
+                count: votes.state.count,
+                sum: votes.state.sum,
+            })
         ])
     ]
 )
