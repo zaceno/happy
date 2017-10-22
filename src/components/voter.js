@@ -1,6 +1,5 @@
-const hyperx = require('hyperx')
-const {h} = require('hyperapp')
-const html = hyperx(h, {attrToProp: false})
+const tags = require('./tags')
+const [ul, li, p] = tags('ul, li, p')
 const Icon = require('./icon')
 
 const options = [
@@ -46,16 +45,18 @@ const options = [
 
 
 
-module.exports = ({value:current, set}) => html`<ul class="option-selector">
-    ${options.map(({value, icon, label, extra}) => html`
-    <li
-        onmousedown=${_ => set(value)}
-        ontouchstart=${_ => set(value)}
-        class=${(value === current ? 'active' : '')}
-    >
-        ${Icon({name:icon})}
-        <p class="label">${label}</p>
-        <p class="extra">${extra}</p>
-    </li>
-    `)}
-</ul>`
+module.exports = ({value:current, set}) => ul(
+    {class: 'option-selector'},
+    options.map(({value, icon, label, extra}) => li(
+        {
+            onmousedown: _ => set(value),
+            ontouchstart: _ => set(value),
+            class: (value === current ? 'active' : ''),
+        },
+        [
+            Icon({name: icon}),
+            p({class: 'label'}, [label]),
+            p({class: 'extra'}, [extra]),
+        ]
+    ))
+)

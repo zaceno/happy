@@ -1,3 +1,4 @@
+const {h} = require('hyperapp')
 const NavButton = require('./navbutton')
 const {combine, enter, leave} = require('hyperapp-transitions')
 const cache = {direction: null}
@@ -18,12 +19,5 @@ const pageSlide = combine(
 
 module.exports = ({name, direction, next}, children) => {
     cache.direction = direction
-    return pageSlide({
-        'tag': 'div',
-        data: {
-            class: 'page',
-            key: name,
-        },
-        children: [].concat(children, NavButton(next))
-    })
+    return pageSlide(h('div', {class: 'page', key: name }, [].concat(children, NavButton(next))))
 }

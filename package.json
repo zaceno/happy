@@ -5,13 +5,12 @@
   "description": "\"A web app for anonymously collecting the average happiness (on a scale 1-5) of a team\"",
   "main": "dist/index.html",
   "dependencies": {
+    "@hyperapp/html": "^0.5.1",
     "hyperapp": "^0.9.3",
-    "hyperapp-transitions": "^0.5.1",
-    "hyperx": "^2.3.0"
+    "hyperapp-transitions": "^0.5.1"
   },
   "devDependencies": {
     "browserify": "^14.4.0",
-    "hyperxify": "^2.0.1",
     "less": "^2.7.2",
     "less-plugin-clean-css": "^1.5.1",
     "live-server": "^1.2.0",
@@ -22,7 +21,7 @@
   },
   "scripts": {
     "liveserver": "live-server --watch=./dist/ --open=./dist/index.html",
-    "build:js": "browserify src/index.js -t hyperxify | uglifyjs -m -c > dist/script.js",
+    "build:js": "browserify src/index.js | uglifyjs -m -c > dist/script.js",
     "build:html": "cp src/index.html dist/index.html",
     "build:css": "lessc --clean-css src/style/main.less > dist/style.css",
     "build": "npm run build:js && npm run build:html && npm run build:css",

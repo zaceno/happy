@@ -1,18 +1,15 @@
+const tags = require('./tags')
+const [button] = tags('button')
 
-module.exports = ({cls, action}, children) => {
-    const onActivate = ev => {
-        ev.preventDefault(true)
-        ev.currentTarget.classList.add('active')
-        action()
-    }
-    
-    return {
-        tag: 'button',
-        data:{
-            class: cls,
-            ontouchstart: onActivate,
-            onmousedown: onActivate
-        },
-        children
-    }
+const onActivate = action => ev => {
+    ev.preventDefault(true)
+    ev.currentTarget.classList.add('active')
+    action()
 }
+
+module.exports = ({cls, action}, children) => button({
+    class: cls,
+    ontouchstart: onActivate(action),
+    onmousedown: onActivate(action)
+}, children)
+

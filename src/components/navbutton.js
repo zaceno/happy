@@ -1,6 +1,4 @@
 const {h} = require('hyperapp')
-const hyperx = require('hyperx')
-const html = hyperx(h, {attrToProp: false})
 const Button = require('./button')
 const Chevron = require('./chevron')
 
@@ -12,8 +10,8 @@ module.exports = ({goTo, target, direction, text, extra}) => {
         },
         [
             Chevron({direction}),
-            html`<p class="button-text-extra">${extra}</p>`,
-            html`<p class="button-text-main">${text}</p>`,
+            h('p', {class: 'button-text-extra'}, [extra]),
+            h('p', {class: 'button-text-main'}, [text])
         ]
     )
 }

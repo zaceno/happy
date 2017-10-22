@@ -1,5 +1,2 @@
-module.exports = (props, children) => ({
-    'tag': 'div',
-    'data': {'class': 'panel'},
-    children
-})
+const {h} = require('hyperapp')
+module.exports = (props, children) => h('div', {'class': 'panel'}, children)
