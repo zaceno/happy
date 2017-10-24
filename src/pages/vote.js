@@ -2,15 +2,16 @@ import Voter from '../components/voter'
 import Panel from '../components/panel'
 import Page from '../components/page'
 
-export default ({direction, goTo, votes}) => Page({
+export default ({navigation, votes}) => Page({
         name: 'vote',
-        direction,
+        direction: navigation.state.direction,
         next: {
-            goTo,
+            goTo: navigation.actions.goTo,
             target: 'pass',
             direction: 'forward',
             extra: "Make your selection, then tap here to...",
             text: "Cast Vote",
+            onGo: votes.actions.commit,
         }
     },
     [

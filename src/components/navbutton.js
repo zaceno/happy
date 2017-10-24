@@ -2,11 +2,14 @@ import {h} from 'hyperapp'
 import Button from './button'
 import Chevron from './chevron'
 
-export default ({goTo, target, direction, text, extra}) => {
+export default ({goTo, target, direction, text, extra, onGo}) => {
     return Button(
         {
             cls: `nav-button ${direction}`,
-            action: _ => goTo([target, direction]),
+            action: _ => {
+                if (onGo) onGo()
+                goTo([target, direction])
+            },
         },
         [
             Chevron({direction}),

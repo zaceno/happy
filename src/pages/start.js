@@ -1,12 +1,12 @@
 import Page from '../components/page'
 import Panel from '../components/panel'
 
-export default ({direction, goTo}) => Page(
+export default ({navigation, votes}) => Page(
     {
         name: 'start',
-        direction,
+        direction: navigation.state.direction,
         next: {
-            goTo,
+            goTo: navigation.actions.goTo,
             target: 'vote',
             direction: 'forward',
             extra: "When you're ready, tap here to...",
