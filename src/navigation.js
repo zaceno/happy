@@ -4,9 +4,6 @@ export default {
         direction: null,
     },
     actions: {
-        goTo: (state, actions, [current, direction], emit) => {
-            emit('navigation:' + current)
-            return ({current, direction})
-        }
+        goTo: (state, actions, [current, direction]) => ({current, direction})
     }
 }

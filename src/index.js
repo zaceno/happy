@@ -1,7 +1,5 @@
 import './style/main.less'
-import {app as core} from 'hyperapp'
-import events from 'hyperapp-events'
-const app = events(core)
+import {app} from 'hyperapp'
 
 //modules
 import votes from './votes'
@@ -14,15 +12,15 @@ import pages from './pages/index.js'
 
 app({
     modules: {votes, navigation},
-    events: {
-        'navigation:reset': (state, actions) => actions.votes.reset(),
-        'navigation:pass': (state, actions) => actions.votes.commit(),
-    },
     view: (state, actions) => AppContainer({}, [
         pages[state.navigation.current]({
+            goTo: ([page, direction]) => {
+                if (page === 'reset') actions.votes.reset()
+                if (page === 'pass') actions.votes.commit()
+                actions.navigation.goTo([page, direction])
+            },
             direction: state.navigation.direction,
-            goTo: actions.navigation.goTo,
-            votes: {state: state.votes, actions: actions.votes}
+            votes: {state: state.votes, actions: actions.votes},
         })
     ])
 })
