@@ -5,8 +5,9 @@
   "description": "\"A web app for anonymously collecting the average happiness (on a scale 1-5) of a team\"",
   "main": "dist/index.html",
   "dependencies": {
-    "hyperapp": "^0.15.1",
-    "hyperapp-transitions": "^0.6.6"
+    "@hyperapp/html": "^1.0.1",
+    "hyperapp": "^1.0.2",
+    "hyperapp-transitions": "^0.11.0"
   },
   "devDependencies": {
     "rollup": "^0.50.0",

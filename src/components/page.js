@@ -1,30 +1,51 @@
 import {h} from 'hyperapp'
 import NavButton from './navbutton'
-import transitions from 'hyperapp-transitions'
+import {enter as TxEnter, exit as TxExit} from 'hyperapp-transitions'
 
+const cache = {
+    direction: null
+}
 
-const pageSlide = (() => {
-    const {combine, enter, leave} = transitions    
-    var direction
-
-    var opts = _ => ({
-        name: 'slide-' + direction,
-        easing: 'ease-in-out',
-        time: 400,
-        ready: 500,
-    })
-
-    return d => {
-        direction = d
-        return combine(enter(opts), leave(opts))
-    }
-})()
-
-export default ({name, direction, next}, children) => pageSlide(direction)(h(
-    'div',
-    {
-        class: 'page',
-        key: name
+const TxTranslation = {
+    enter: {
+        back: '-110%',
+        forward: '110%',
     },
-    [].concat(children, NavButton(next))
-))
+    exit: {
+        back: '110%',
+        forward: '-110%',
+    }
+}
+
+const getTxCSS = inOrOut => _ => ({
+    transform: `translateX(${TxTranslation[inOrOut][cache.direction]})`
+})
+
+
+export default ({name, direction, next}, children) => {
+    cache.direction = direction
+    return TxEnter(
+        {
+            css: getTxCSS('enter'),
+            easing: 'ease-in-out',
+            time: 400
+        },
+        TxExit(
+            {
+                css: getTxCSS('exit'),
+                easing: 'ease-in-out',
+                time: 400
+            },
+            [
+                h(
+                    'div',
+                    {
+                        class: 'page',
+                        key: name
+                    },
+                    [].concat(children, NavButton(next))
+                )
+            ]
+        )
+    )[0]
+}

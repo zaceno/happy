@@ -1,9 +1,8 @@
-export default {
-    state: {
-        current: 'initial',
-        direction: null,
-    },
-    actions: {
-        goTo: (state, actions, [current, direction]) => ({current, direction})
-    }
+export const state = {
+    current: 'initial',
+    direction: null,
+}
+
+export const actions = {
+    goTo: ([current, direction]) => ({current, direction})
 }
