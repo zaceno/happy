@@ -1,27 +1,18 @@
-import Result from '../components/result'
-import Page from '../components/page'
-import Panel from '../components/panel'
-
-export default ({navigation, votes}) => Page(
-    {
-        name: 'result',
-        direction: navigation.state.direction,
-        next: {
-            goTo: navigation.actions.goTo,
-            target: 'reset',
-            direction: 'forward',
-            extra: 'Need to do it again? Tap here to...',
-            text: 'Reset Votes',
-            onGo: votes.actions.reset,
-        }
-    },
-    [
-        Panel({}, [
-            'Happiness Index',
-            Result({
-                count: votes.state.count,
-                sum: votes.state.sum,
-            })
-        ])
-    ]
-)
+import html from '../html'
+const { p } = html
+import Page from '../navigation-page'
+import NavButton from '../navigation-button'
+import ResetPage from './reset'
+import { CalcAverage } from '../calc-average'
+export default props =>
+    Page(props, [
+        p(['Happiness Index:', CalcAverage(props.tally)]),
+        NavButton(
+            {
+                direction: 'left',
+                page: ResetPage,
+                onnavigate: props.resetVotes,
+            },
+            'Reset'
+        ),
+    ])

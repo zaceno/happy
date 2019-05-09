@@ -1,28 +1,14 @@
 {
-  "name": "zx-happy",
-  "version": "1.0.0",
+  "name": "happy",
+  "version": "2.0.0",
   "private": true,
   "description": "\"A web app for anonymously collecting the average happiness (on a scale 1-5) of a team\"",
   "main": "dist/index.html",
   "dependencies": {
-    "@hyperapp/html": "^1.0.1",
-    "hyperapp": "^1.0.2",
-    "hyperapp-transitions": "^0.11.0"
+    "hyperapp": "2.0.0-beta.11",
+    "parcel-bundler": "^1.12.3"
   },
-  "devDependencies": {
-    "rollup": "^0.50.0",
-    "rollup-plugin-commonjs": "^8.2.4",
-    "rollup-plugin-lessify": "^1.0.2",
-    "rollup-plugin-livereload": "^0.6.0",
-    "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-serve": "^0.4.2",
-    "rollup-plugin-uglify": "^2.0.1",
-    "uglify-es": "^3.0.20"
-  },
-  "scripts": {
-    "dev": "rollup -c -w",
-    "build": "rollup -c"
-  },
+  "scripts": {},
   "author": "Zacharias Enochsson",
   "license": "MIT",
   "homepage": "https://zaceno.github.io/happy",

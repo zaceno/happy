@@ -1,24 +1,17 @@
-import Voter from '../components/voter'
-import Panel from '../components/panel'
-import Page from '../components/page'
-
-export default ({navigation, votes}) => Page({
-        name: 'vote',
-        direction: navigation.state.direction,
-        next: {
-            goTo: navigation.actions.goTo,
-            target: 'pass',
-            direction: 'forward',
-            extra: "Make your selection, then tap here to...",
-            text: "Cast Vote",
-            onGo: votes.actions.commit,
-        }
-    },
-    [
-        Panel({}, ['How happy are you about your job?']),
-        Voter({
-            value: votes.state.current,
-            set: votes.actions.set
-        })
-    ]
-)
+import html from '../html'
+const { p } = html
+import Page from '../navigation-page'
+import NavButton from '../navigation-button'
+import PassPage from './pass'
+import HappinessSelector from '../happiness-selector'
+export default props =>
+    Page(props, [
+        HappinessSelector({
+            value: props.happinessSelection,
+            set: props.selectHappiness,
+        }),
+        NavButton(
+            { direction: 'left', page: PassPage, onnavigate: props.commitVote },
+            'Cast vote!'
+        ),
+    ])

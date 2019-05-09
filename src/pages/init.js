@@ -2,10 +2,10 @@ import html from '../html'
 const { p } = html
 import Page from '../navigation-page'
 import NavButton from '../navigation-button'
-import VotePage from './vote'
+import StartPage from './start'
 
 export default props =>
     Page(props, [
-        p({}, 'Please pass the phone to the first person'),
-        NavButton({ direction: 'left', page: VotePage }, 'Vote'),
+        p({}, 'Happiness Index Calculator'),
+        NavButton({ direction: 'left', page: StartPage }, 'Start'),
     ])
