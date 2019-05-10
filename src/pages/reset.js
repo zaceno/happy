@@ -7,6 +7,6 @@ import CalcAverage from '../calc-average'
 
 export default props =>
     Page(props, [
-        p(['Memory Cleared!', CalcAverage(props.state.voter.tally)]),
+        p(['Memory Cleared!', CalcAverage(props.tally)]),
         NavButton({ direction: 'right', page: StartPage }, 'Start Again'),
     ])
