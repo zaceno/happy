@@ -1,10 +1,13 @@
-import html from '../util/html'
-const { p } = html
+import Message from '../components/message'
 import * as Nav from '../navigation'
 import VotePage from './vote'
 
-export default ({ state, ...pageProps }) =>
-    Nav.Page(pageProps, [
-        p({}, 'Please pass the phone to the first person'),
-        Nav.Button({ direction: 'left', page: VotePage }, 'Vote'),
-    ])
+export default Nav.Page(state => [
+    Message('Please pass the phone to the first person'),
+    Nav.Button({
+        direction: 'left',
+        page: VotePage,
+        extra: "When you're ready, tap here to...",
+        text: 'Vote',
+    }),
+])

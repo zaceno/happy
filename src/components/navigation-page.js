@@ -4,12 +4,12 @@ export default (props, children) =>
     html.section(
         {
             class: {
-                page: true,
-                exit: props.exit,
-                enter: props.enter,
-                run: props.run,
-                left: props.left,
-                right: props.right,
+                navPage: true,
+                exit: props.exiting,
+                enter: props.entering,
+                run: props.running,
+                left: props.direction === 'left',
+                right: props.direction === 'right',
             },
             ontransitionend: props.ontransitionend,
         },

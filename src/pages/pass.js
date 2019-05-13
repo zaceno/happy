@@ -3,9 +3,18 @@ import * as Nav from '../navigation'
 import VotePage from './vote'
 import ResultPage from './result'
 
-export default ({ state, ...pageProps }) =>
-    Nav.Page(pageProps, [
-        Message('Thanks! Please pass the phone to the next person'),
-        Nav.Button({ direction: 'right', page: VotePage }, 'Vote'),
-        Nav.Button({ direction: 'left', page: ResultPage }, 'Result'),
-    ])
+export default Nav.Page(state => [
+    Nav.Button({
+        direction: 'left',
+        page: ResultPage,
+        text: 'Check Result',
+        extra: 'Has everyone voted? Tap here to...',
+    }),
+    Message('Thank you! Now, please hand the phone to the next person.'),
+    Nav.Button({
+        direction: 'right',
+        page: VotePage,
+        text: 'Vote',
+        extra: 'Are you the next person? Tap here to...',
+    }),
+])

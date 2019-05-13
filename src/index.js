@@ -15,8 +15,8 @@ app(
             Immediate(Happiness.Init),
             Immediate(Votes.Init),
         ],
-        view: state => Body({}, Nav.Container({ state })),
+        view: state => Body({}, Nav.Container(state)),
         node: document.body,
-    }
-    //    ,logger
+    },
+    logger
 )

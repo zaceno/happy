@@ -1,8 +1,15 @@
 import html from '../util/html'
-
-export default ({ direction, onnavigate }, children) =>
-    html.button({ onclick: onnavigate }, [
-        direction === 'right' && '<',
-        children,
-        direction === 'left' && '>',
-    ])
+import Chevron from './chevron'
+export default ({ direction, onnavigate, active, text, extra }, children) =>
+    html.button(
+        {
+            class: { navButton: true, active, [direction]: true },
+            onmousedown: onnavigate,
+            ontouchstart: onnavigate,
+        },
+        [
+            Chevron({ direction }),
+            html.p({ class: 'extraText' }, extra),
+            html.p({ class: 'mainText' }, text),
+        ]
+    )

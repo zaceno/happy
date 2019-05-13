@@ -1,4 +1,5 @@
 import Immediate from '../fx/immediate'
+import Message from '../components/message'
 import * as Nav from '../navigation'
 import * as Happiness from '../happiness'
 import * as Votes from '../votes'
@@ -10,15 +11,14 @@ const CommitAndReset = (state, happiness) => [
     Immediate(Happiness.Init),
 ]
 
-export default ({ state, ...pageProps }) =>
-    Nav.Page(pageProps, [
-        Happiness.View({ state }),
-        Nav.Button(
-            {
-                direction: 'left',
-                page: PassPage,
-                onnavigate: [CommitAndReset, Happiness.Value(state)],
-            },
-            'Cast vote!'
-        ),
-    ])
+export default Nav.Page(state => [
+    Message('How happy are you about your job?'),
+    Happiness.View(state),
+    Nav.Button({
+        direction: 'left',
+        page: PassPage,
+        onnavigate: [CommitAndReset, Happiness.Value(state)],
+        extra: 'Make your selection, then tap here to...',
+        text: 'Cast vote',
+    }),
+])

@@ -1,20 +1,58 @@
 import html from '../util/html'
-const { ul, li } = html
+const { ul, li, p } = html
+
+const options = [
+    {
+        value: 0,
+        icon: 'noFace',
+        label: 'No Vote',
+        extra: "I don't want to participate.",
+    },
+    {
+        value: 5,
+        icon: 'veryHappyFace',
+        label: 'Very Happy',
+        extra: 'It should always be this way!',
+    },
+    {
+        value: 4,
+        icon: 'happyFace',
+        label: 'Happy',
+        extra: 'It can always get better!',
+    },
+    {
+        value: 3,
+        icon: 'uncertainFace',
+        label: "Don't know",
+        extra: 'Meh... / Mixed feelings',
+    },
+    {
+        value: 2,
+        icon: 'unhappyFace',
+        label: 'Unhappy',
+        extra: 'A lot needs to change!',
+    },
+    {
+        value: 1,
+        icon: 'veryUnhappyFace',
+        label: 'Very Unhappy',
+        extra: 'Why even bother...',
+    },
+]
+
 export default ({ value, set }) =>
-    ul({ class: 'voter' }, [
-        li({ onclick: [set, 0], class: { selected: value === 0 } }, 'Non vote'),
-        li(
-            { onclick: [set, 5], class: { selected: value === 5 } },
-            'Very Happy'
-        ),
-        li({ onclick: [set, 4], class: { selected: value === 4 } }, 'Happy'),
-        li(
-            { onclick: [set, 3], class: { selected: value === 3 } },
-            "Don't know"
-        ),
-        li({ onclick: [set, 2], class: { selected: value === 2 } }, 'Unhappy'),
-        li(
-            { onclick: [set, 1], class: { selected: value === 1 } },
-            'Very Unhappy'
-        ),
-    ])
+    ul(
+        { class: 'voter' },
+        options.map(opt =>
+            li(
+                {
+                    onclick: [set, opt.value],
+                    class: { selected: value === opt.value },
+                },
+                [
+                    p({ class: 'mainText' }, opt.label),
+                    p({ class: 'extraText' }, opt.extra),
+                ]
+            )
+        )
+    )

@@ -1,15 +1,14 @@
-import * as actions from './actions/select'
 import Selector from './components/happiness-selector'
 
 const Select = (state, x) => ({
     ...state,
-    happiness: actions.select(state.happiness, x),
+    happiness: x,
 })
 const Init = (state, x) => ({
     ...state,
-    happiness: actions.reset(state.happiness),
+    happiness: 0,
 })
 const Value = state => state.happiness
-const View = ({ state }) => Selector({ value: Value(state), set: Select })
+const View = state => Selector({ value: state.happiness, set: Select })
 
 export { Init, View, Value }
