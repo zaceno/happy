@@ -1,11 +1,10 @@
-import html from '../html'
+import html from '../util/html'
 const { p } = html
-import Page from '../navigation-page'
-import NavButton from '../navigation-button'
+import * as Nav from '../navigation'
 import VotePage from './vote'
 
-export default props =>
-    Page(props, [
+export default ({ state, ...pageProps }) =>
+    Nav.Page(pageProps, [
         p({}, 'Please pass the phone to the first person'),
-        NavButton({ direction: 'left', page: VotePage }, 'Vote'),
+        Nav.Button({ direction: 'left', page: VotePage }, 'Vote'),
     ])

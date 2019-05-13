@@ -1,18 +1,15 @@
-import html from '../html'
-const { p } = html
-import Page from '../navigation-page'
-import NavButton from '../navigation-button'
+import Message from '../components/message'
+import * as Nav from '../navigation'
 import ResetPage from './reset'
-import { avg } from '../calcs/vote'
-import { ResetVotes } from '../tally-actions'
-export default props =>
-    Page(props, [
-        p(['Happiness Index:', avg(props.tally)]),
-        NavButton(
+import * as Votes from '../votes'
+export default ({ state, ...pageProps }) =>
+    Nav.Page(pageProps, [
+        Message(['Happiness index: ', Votes.View({ state })]),
+        Nav.Button(
             {
                 direction: 'left',
                 page: ResetPage,
-                onnavigate: ResetVotes,
+                onnavigate: Votes.Init,
             },
             'Reset'
         ),

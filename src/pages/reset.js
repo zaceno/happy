@@ -1,12 +1,10 @@
-import html from '../html'
-const { p } = html
-import Page from '../navigation-page'
-import NavButton from '../navigation-button'
+import Message from '../components/message'
+import * as Nav from '../navigation'
 import StartPage from './start'
-import { avg } from '../calcs/vote'
+import * as Votes from '../votes'
 
-export default props =>
-    Page(props, [
-        p(['Memory Cleared!', avg(props.tally)]),
-        NavButton({ direction: 'right', page: StartPage }, 'Start Again'),
+export default ({ state, ...pageProps }) =>
+    Nav.Page(pageProps, [
+        Message(['Memory Cleared!', Votes.View({ state })]),
+        Nav.Button({ direction: 'right', page: StartPage }, 'Start Again'),
     ])

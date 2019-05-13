@@ -452,7 +452,7 @@ var app = function (props, enhance) {
 };
 
 exports.app = app;
-},{}],"logger.js":[function(require,module,exports) {
+},{}],"util/logger.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -471,7 +471,7 @@ var _default = dispatch => (...args) => {
 };
 
 exports.default = _default;
-},{}],"html.js":[function(require,module,exports) {
+},{}],"util/html.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -496,7 +496,21 @@ var _default = new Proxy({}, {
 });
 
 exports.default = _default;
-},{"hyperapp":"../node_modules/hyperapp/src/index.js"}],"fx/immediate.js":[function(require,module,exports) {
+},{"hyperapp":"../node_modules/hyperapp/src/index.js"}],"components/body.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _html = _interopRequireDefault(require("../util/html"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = _html.default.body;
+exports.default = _default;
+},{"../util/html":"util/html.js"}],"fx/immediate.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -507,7 +521,22 @@ exports.default = void 0;
 var _default = (f => (...a) => [f, a])((a, d) => d(...a));
 
 exports.default = _default;
-},{}],"fx/after-render.js":[function(require,module,exports) {
+},{}],"components/message.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _html = _interopRequireDefault(require("../util/html"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = children => _html.default.p({}, children);
+
+exports.default = _default;
+},{"../util/html":"util/html.js"}],"fx/after-render.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -518,41 +547,7 @@ exports.default = void 0;
 var _default = (f => a => [f, a])((a, d) => requestAnimationFrame(_ => d(a)));
 
 exports.default = _default;
-},{}],"dispatch-main.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _default = f => f;
-
-exports.default = _default;
-},{}],"dispatch-navigation.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _dispatchMain = _interopRequireDefault(require("./dispatch-main"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _default = f => (0, _dispatchMain.default)((state, payload) => {
-  let news = f(state.navigation, payload);
-  let fx = [];
-  if (Array.isArray(news)) [news, ...fx] = news;
-  news = { ...state,
-    navigation: news
-  };
-  return fx.length ? [news, ...fx] : news;
-});
-
-exports.default = _default;
-},{"./dispatch-main":"dispatch-main.js"}],"calcs/navigate.js":[function(require,module,exports) {
+},{}],"actions/navigate.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -590,37 +585,7 @@ const finish = state => ({ ...state,
 });
 
 exports.finish = finish;
-},{}],"navigation-actions.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.EndTransition = exports.Navigate = exports.Init = void 0;
-
-var _afterRender = _interopRequireDefault(require("./fx/after-render"));
-
-var _immediate = _interopRequireDefault(require("./fx/immediate"));
-
-var _dispatchNavigation = _interopRequireDefault(require("./dispatch-navigation"));
-
-var calc = _interopRequireWildcard(require("./calcs/navigate"));
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const Navigate = (0, _dispatchNavigation.default)((state, props) => {
-  if (state.mode !== 'idle') return state;
-  return [calc.start(state, props), (0, _afterRender.default)(RunTransition), props.onnavigate && (0, _immediate.default)(props.onnavigate)];
-});
-exports.Navigate = Navigate;
-const RunTransition = (0, _dispatchNavigation.default)(calc.run);
-const EndTransition = (0, _dispatchNavigation.default)(calc.finish);
-exports.EndTransition = EndTransition;
-const Init = (0, _dispatchNavigation.default)(calc.reset);
-exports.Init = Init;
-},{"./fx/after-render":"fx/after-render.js","./fx/immediate":"fx/immediate.js","./dispatch-navigation":"dispatch-navigation.js","./calcs/navigate":"calcs/navigate.js"}],"navigation-page.js":[function(require,module,exports) {
+},{}],"components/navigation-button.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -628,9 +593,27 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _html = _interopRequireDefault(require("./html"));
+var _html = _interopRequireDefault(require("../util/html"));
 
-var _navigationActions = require("./navigation-actions");
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = ({
+  direction,
+  onnavigate
+}, children) => _html.default.button({
+  onclick: onnavigate
+}, [direction === 'right' && '<', children, direction === 'left' && '>']);
+
+exports.default = _default;
+},{"../util/html":"util/html.js"}],"components/navigation-page.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _html = _interopRequireDefault(require("../util/html"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -643,11 +626,11 @@ var _default = (props, children) => _html.default.section({
     left: props.left,
     right: props.right
   },
-  ontransitionend: _navigationActions.EndTransition
+  ontransitionend: props.ontransitionend
 }, children);
 
 exports.default = _default;
-},{"./html":"html.js","./navigation-actions":"navigation-actions.js"}],"navigation-button.js":[function(require,module,exports) {
+},{"../util/html":"util/html.js"}],"components/navigation-container.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -655,24 +638,223 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _html = _interopRequireDefault(require("./html"));
-
-var _navigationActions = require("./navigation-actions");
+var _html = _interopRequireDefault(require("../util/html"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _default = (props, children) => _html.default.button({
-  onclick: [_navigationActions.Navigate, props]
-}, children);
+var _default = ({
+  state,
+  mode,
+  page,
+  direction,
+  prev
+}) => {
+  return _html.default.main({
+    class: 'container'
+  }, mode == 'idle' ? page({
+    state
+  }) : [prev({
+    state,
+    [direction]: true,
+    exit: true,
+    run: mode === 'run'
+  }), page({
+    state,
+    [direction]: true,
+    enter: true,
+    run: mode === 'run'
+  })]);
+};
 
 exports.default = _default;
-},{"./html":"html.js","./navigation-actions":"navigation-actions.js"}],"calcs/vote.js":[function(require,module,exports) {
+},{"../util/html":"util/html.js"}],"navigation.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.avg = exports.vote = exports.reset = void 0;
+exports.Container = exports.Page = exports.Button = exports.Init = void 0;
+
+var _afterRender = _interopRequireDefault(require("./fx/after-render"));
+
+var _immediate = _interopRequireDefault(require("./fx/immediate"));
+
+var actions = _interopRequireWildcard(require("./actions/navigate"));
+
+var _navigationButton = _interopRequireDefault(require("./components/navigation-button"));
+
+var _navigationPage = _interopRequireDefault(require("./components/navigation-page"));
+
+var _navigationContainer = _interopRequireDefault(require("./components/navigation-container"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const RunTransition = state => ({ ...state,
+  nav: actions.run(state.nav)
+});
+
+const EndTransition = state => ({ ...state,
+  nav: actions.finish(state.nav)
+});
+
+const Navigate = (state, props) => {
+  if (state.nav.mode !== 'idle') return state;
+  return [{ ...state,
+    nav: actions.start(state.nav, props)
+  }, (0, _afterRender.default)(RunTransition), props.onnavigate && (0, _immediate.default)(props.onnavigate)];
+};
+
+const Init = (state, page) => ({ ...state,
+  nav: actions.reset(state.nav, page)
+});
+
+exports.Init = Init;
+
+const Button = ({
+  page,
+  direction,
+  onnavigate
+}, children) => (0, _navigationButton.default)({
+  direction,
+  onnavigate: [Navigate, {
+    page,
+    direction,
+    onnavigate
+  }]
+}, children);
+
+exports.Button = Button;
+
+const Page = (props, children) => (0, _navigationPage.default)({ ...props,
+  ontransitionend: EndTransition
+}, children);
+
+exports.Page = Page;
+
+const Container = ({
+  state
+}) => (0, _navigationContainer.default)({ ...state.nav,
+  state
+});
+
+exports.Container = Container;
+},{"./fx/after-render":"fx/after-render.js","./fx/immediate":"fx/immediate.js","./actions/navigate":"actions/navigate.js","./components/navigation-button":"components/navigation-button.js","./components/navigation-page":"components/navigation-page.js","./components/navigation-container":"components/navigation-container.js"}],"actions/select.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.reset = exports.select = void 0;
+
+const select = (old, val) => val;
+
+exports.select = select;
+
+const reset = _ => 0;
+
+exports.reset = reset;
+},{}],"components/happiness-selector.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _html = _interopRequireDefault(require("../util/html"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const {
+  ul,
+  li
+} = _html.default;
+
+var _default = ({
+  value,
+  set
+}) => ul({
+  class: 'voter'
+}, [li({
+  onclick: [set, 0],
+  class: {
+    selected: value === 0
+  }
+}, 'Non vote'), li({
+  onclick: [set, 5],
+  class: {
+    selected: value === 5
+  }
+}, 'Very Happy'), li({
+  onclick: [set, 4],
+  class: {
+    selected: value === 4
+  }
+}, 'Happy'), li({
+  onclick: [set, 3],
+  class: {
+    selected: value === 3
+  }
+}, "Don't know"), li({
+  onclick: [set, 2],
+  class: {
+    selected: value === 2
+  }
+}, 'Unhappy'), li({
+  onclick: [set, 1],
+  class: {
+    selected: value === 1
+  }
+}, 'Very Unhappy')]);
+
+exports.default = _default;
+},{"../util/html":"util/html.js"}],"happiness.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Value = exports.View = exports.Init = void 0;
+
+var actions = _interopRequireWildcard(require("./actions/select"));
+
+var _happinessSelector = _interopRequireDefault(require("./components/happiness-selector"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+const Select = (state, x) => ({ ...state,
+  happiness: actions.select(state.happiness, x)
+});
+
+const Init = (state, x) => ({ ...state,
+  happiness: actions.reset(state.happiness)
+});
+
+exports.Init = Init;
+
+const Value = state => state.happiness;
+
+exports.Value = Value;
+
+const View = ({
+  state
+}) => (0, _happinessSelector.default)({
+  value: Value(state),
+  set: Select
+});
+
+exports.View = View;
+},{"./actions/select":"actions/select.js","./components/happiness-selector":"components/happiness-selector.js"}],"actions/vote.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.vote = exports.reset = void 0;
 
 const reset = _ => ({
   num: 0,
@@ -690,239 +872,54 @@ const vote = ({
 });
 
 exports.vote = vote;
+},{}],"components/happiness-result.js":[function(require,module,exports) {
+"use strict";
 
-const avg = ({
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _default = ({
   num,
   tot
 }) => num ? Math.round(tot / num * 10) / 10 : 0;
 
-exports.avg = avg;
-},{}],"pages/reset.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _html = _interopRequireDefault(require("../html"));
-
-var _navigationPage = _interopRequireDefault(require("../navigation-page"));
-
-var _navigationButton = _interopRequireDefault(require("../navigation-button"));
-
-var _start = _interopRequireDefault(require("./start"));
-
-var _vote = require("../calcs/vote");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const {
-  p
-} = _html.default;
-
-var _default = props => (0, _navigationPage.default)(props, [p(['Memory Cleared!', (0, _vote.avg)(props.tally)]), (0, _navigationButton.default)({
-  direction: 'right',
-  page: _start.default
-}, 'Start Again')]);
-
 exports.default = _default;
-},{"../html":"html.js","../navigation-page":"navigation-page.js","../navigation-button":"navigation-button.js","./start":"pages/start.js","../calcs/vote":"calcs/vote.js"}],"dispatch-tally.js":[function(require,module,exports) {
+},{}],"votes.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.View = exports.Vote = exports.Init = void 0;
 
-var _dispatchMain = _interopRequireDefault(require("./dispatch-main"));
+var actions = _interopRequireWildcard(require("./actions/vote"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _default = f => (0, _dispatchMain.default)((state, payload) => {
-  return { ...state,
-    tally: f(state.tally, payload)
-  };
-});
-
-exports.default = _default;
-},{"./dispatch-main":"dispatch-main.js"}],"tally-actions.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Init = exports.CommitVote = exports.ResetVotes = void 0;
-
-var _dispatchTally = _interopRequireDefault(require("./dispatch-tally"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const ResetVotes = (0, _dispatchTally.default)(_ => ({
-  num: 0,
-  tot: 0
-}));
-exports.ResetVotes = ResetVotes;
-const CommitVote = (0, _dispatchTally.default)(({
-  num,
-  tot
-}, vote) => ({
-  num: num + 1,
-  tot: tot + vote
-}));
-exports.CommitVote = CommitVote;
-const Init = ResetVotes;
-exports.Init = Init;
-},{"./dispatch-tally":"dispatch-tally.js"}],"pages/result.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _html = _interopRequireDefault(require("../html"));
-
-var _navigationPage = _interopRequireDefault(require("../navigation-page"));
-
-var _navigationButton = _interopRequireDefault(require("../navigation-button"));
-
-var _reset = _interopRequireDefault(require("./reset"));
-
-var _vote = require("../calcs/vote");
-
-var _tallyActions = require("../tally-actions");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const {
-  p
-} = _html.default;
-
-var _default = props => (0, _navigationPage.default)(props, [p(['Happiness Index:', (0, _vote.avg)(props.tally)]), (0, _navigationButton.default)({
-  direction: 'left',
-  page: _reset.default,
-  onnavigate: _tallyActions.ResetVotes
-}, 'Reset')]);
-
-exports.default = _default;
-},{"../html":"html.js","../navigation-page":"navigation-page.js","../navigation-button":"navigation-button.js","./reset":"pages/reset.js","../calcs/vote":"calcs/vote.js","../tally-actions":"tally-actions.js"}],"pages/pass.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _html = _interopRequireDefault(require("../html"));
-
-var _navigationPage = _interopRequireDefault(require("../navigation-page"));
-
-var _navigationButton = _interopRequireDefault(require("../navigation-button"));
-
-var _vote = _interopRequireDefault(require("./vote"));
-
-var _result = _interopRequireDefault(require("./result"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const {
-  p
-} = _html.default;
-
-var _default = props => (0, _navigationPage.default)(props, [p('Thanks! Pass the phone to the next person'), (0, _navigationButton.default)({
-  direction: 'right',
-  page: _vote.default
-}, 'Vote'), (0, _navigationButton.default)({
-  direction: 'left',
-  page: _result.default
-}, 'Result')]);
-
-exports.default = _default;
-},{"../html":"html.js","../navigation-page":"navigation-page.js","../navigation-button":"navigation-button.js","./vote":"pages/vote.js","./result":"pages/result.js"}],"calcs/select.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.reset = exports.select = void 0;
-
-const select = (old, val) => val;
-
-exports.select = select;
-
-const reset = _ => 0;
-
-exports.reset = reset;
-},{}],"happiness-selector.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.View = exports.Init = void 0;
-
-var calc = _interopRequireWildcard(require("./calcs/select"));
-
-var _html = _interopRequireDefault(require("./html"));
+var _happinessResult = _interopRequireDefault(require("./components/happiness-result"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-const {
-  ul,
-  li
-} = _html.default;
-
-const Select = (state, x) => ({ ...state,
-  happiness: calc.select(state.happiness, x)
+const Vote = (state, vote) => ({ ...state,
+  votes: actions.vote(state.votes, vote)
 });
 
-const Init = (state, x) => ({ ...state,
-  happiness: calc.reset(state.happiness)
+exports.Vote = Vote;
+
+const Init = state => ({ ...state,
+  votes: actions.reset(state.votes)
 });
 
 exports.Init = Init;
 
 const View = ({
-  value
-}) => ul({
-  class: 'voter'
-}, [li({
-  onclick: [Select, 0],
-  class: {
-    selected: value === 0
-  }
-}, 'Non vote'), li({
-  onclick: [Select, 5],
-  class: {
-    selected: value === 5
-  }
-}, 'Very Happy'), li({
-  onclick: [Select, 4],
-  class: {
-    selected: value === 4
-  }
-}, 'Happy'), li({
-  onclick: [Select, 3],
-  class: {
-    selected: value === 3
-  }
-}, "Don't know"), li({
-  onclick: [Select, 2],
-  class: {
-    selected: value === 2
-  }
-}, 'Unhappy'), li({
-  onclick: [Select, 1],
-  class: {
-    selected: value === 1
-  }
-}, 'Very Unhappy')]);
+  state
+}) => (0, _happinessResult.default)(state.votes);
 
 exports.View = View;
-},{"./calcs/select":"calcs/select.js","./html":"html.js"}],"pages/vote.js":[function(require,module,exports) {
+},{"./actions/vote":"actions/vote.js","./components/happiness-result":"components/happiness-result.js"}],"pages/reset.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -930,19 +927,142 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _html = _interopRequireDefault(require("../html"));
+var _message = _interopRequireDefault(require("../components/message"));
 
-var _navigationPage = _interopRequireDefault(require("../navigation-page"));
+var Nav = _interopRequireWildcard(require("../navigation"));
 
-var _navigationButton = _interopRequireDefault(require("../navigation-button"));
+var _start = _interopRequireDefault(require("./start"));
+
+var Votes = _interopRequireWildcard(require("../votes"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = ({
+  state,
+  ...pageProps
+}) => Nav.Page(pageProps, [(0, _message.default)(['Memory Cleared!', Votes.View({
+  state
+})]), Nav.Button({
+  direction: 'right',
+  page: _start.default
+}, 'Start Again')]);
+
+exports.default = _default;
+},{"../components/message":"components/message.js","../navigation":"navigation.js","./start":"pages/start.js","../votes":"votes.js"}],"pages/result.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _message = _interopRequireDefault(require("../components/message"));
+
+var Nav = _interopRequireWildcard(require("../navigation"));
+
+var _reset = _interopRequireDefault(require("./reset"));
+
+var Votes = _interopRequireWildcard(require("../votes"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = ({
+  state,
+  ...pageProps
+}) => Nav.Page(pageProps, [(0, _message.default)(['Happiness index: ', Votes.View({
+  state
+})]), Nav.Button({
+  direction: 'left',
+  page: _reset.default,
+  onnavigate: Votes.Init
+}, 'Reset')]);
+
+exports.default = _default;
+},{"../components/message":"components/message.js","../navigation":"navigation.js","./reset":"pages/reset.js","../votes":"votes.js"}],"pages/pass.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _message = _interopRequireDefault(require("../components/message"));
+
+var Nav = _interopRequireWildcard(require("../navigation"));
+
+var _vote = _interopRequireDefault(require("./vote"));
+
+var _result = _interopRequireDefault(require("./result"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = ({
+  state,
+  ...pageProps
+}) => Nav.Page(pageProps, [(0, _message.default)('Thanks! Please pass the phone to the next person'), Nav.Button({
+  direction: 'right',
+  page: _vote.default
+}, 'Vote'), Nav.Button({
+  direction: 'left',
+  page: _result.default
+}, 'Result')]);
+
+exports.default = _default;
+},{"../components/message":"components/message.js","../navigation":"navigation.js","./vote":"pages/vote.js","./result":"pages/result.js"}],"pages/vote.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _immediate = _interopRequireDefault(require("../fx/immediate"));
+
+var Nav = _interopRequireWildcard(require("../navigation"));
+
+var Happiness = _interopRequireWildcard(require("../happiness"));
+
+var Votes = _interopRequireWildcard(require("../votes"));
 
 var _pass = _interopRequireDefault(require("./pass"));
 
-var HappinessSelector = _interopRequireWildcard(require("../happiness-selector"));
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-var _tallyActions = require("../tally-actions");
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _immediate = _interopRequireDefault(require("../fx/immediate"));
+const CommitAndReset = (state, happiness) => [state, (0, _immediate.default)(Votes.Vote, happiness), (0, _immediate.default)(Happiness.Init)];
+
+var _default = ({
+  state,
+  ...pageProps
+}) => Nav.Page(pageProps, [Happiness.View({
+  state
+}), Nav.Button({
+  direction: 'left',
+  page: _pass.default,
+  onnavigate: [CommitAndReset, Happiness.Value(state)]
+}, 'Cast vote!')]);
+
+exports.default = _default;
+},{"../fx/immediate":"fx/immediate.js","../navigation":"navigation.js","../happiness":"happiness.js","../votes":"votes.js","./pass":"pages/pass.js"}],"pages/start.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _html = _interopRequireDefault(require("../util/html"));
+
+var Nav = _interopRequireWildcard(require("../navigation"));
+
+var _vote = _interopRequireDefault(require("./vote"));
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -952,46 +1072,16 @@ const {
   p
 } = _html.default;
 
-const CommitAndReset = (state, happiness) => [state, (0, _immediate.default)(_tallyActions.CommitVote, happiness), (0, _immediate.default)(HappinessSelector.Init)];
-
-var _default = props => (0, _navigationPage.default)(props, [HappinessSelector.View({
-  value: props.happiness
-}), (0, _navigationButton.default)({
-  direction: 'left',
-  page: _pass.default,
-  onnavigate: [CommitAndReset, props.happiness]
-}, 'Cast vote!')]);
-
-exports.default = _default;
-},{"../html":"html.js","../navigation-page":"navigation-page.js","../navigation-button":"navigation-button.js","./pass":"pages/pass.js","../happiness-selector":"happiness-selector.js","../tally-actions":"tally-actions.js","../fx/immediate":"fx/immediate.js"}],"pages/start.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _html = _interopRequireDefault(require("../html"));
-
-var _navigationPage = _interopRequireDefault(require("../navigation-page"));
-
-var _navigationButton = _interopRequireDefault(require("../navigation-button"));
-
-var _vote = _interopRequireDefault(require("./vote"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const {
-  p
-} = _html.default;
-
-var _default = props => (0, _navigationPage.default)(props, [p({}, 'Please pass the phone to the first person'), (0, _navigationButton.default)({
+var _default = ({
+  state,
+  ...pageProps
+}) => Nav.Page(pageProps, [p({}, 'Please pass the phone to the first person'), Nav.Button({
   direction: 'left',
   page: _vote.default
 }, 'Vote')]);
 
 exports.default = _default;
-},{"../html":"html.js","../navigation-page":"navigation-page.js","../navigation-button":"navigation-button.js","./vote":"pages/vote.js"}],"pages/init.js":[function(require,module,exports) {
+},{"../util/html":"util/html.js","../navigation":"navigation.js","./vote":"pages/vote.js"}],"pages/init.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -999,105 +1089,57 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _html = _interopRequireDefault(require("../html"));
+var _message = _interopRequireDefault(require("../components/message"));
 
-var _navigationPage = _interopRequireDefault(require("../navigation-page"));
-
-var _navigationButton = _interopRequireDefault(require("../navigation-button"));
+var Nav = _interopRequireWildcard(require("../navigation"));
 
 var _start = _interopRequireDefault(require("./start"));
 
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const {
-  p
-} = _html.default;
-
-var _default = props => (0, _navigationPage.default)(props, [p({}, 'Happiness Index Calculator'), (0, _navigationButton.default)({
+var _default = ({
+  state,
+  ...pageProps
+}) => Nav.Page(pageProps, [(0, _message.default)('Happiness Index Calculator'), Nav.Button({
   direction: 'left',
   page: _start.default
 }, 'Start')]);
 
 exports.default = _default;
-},{"../html":"html.js","../navigation-page":"navigation-page.js","../navigation-button":"navigation-button.js","./start":"pages/start.js"}],"navigation-container.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _html = _interopRequireDefault(require("./html"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _default = props => {
-  return _html.default.main({
-    class: 'container'
-  }, props.navigation.mode == 'idle' ? props.navigation.page({ ...props
-  }) : [props.navigation.prev({ ...props,
-    [props.navigation.direction]: true,
-    exit: true,
-    run: props.navigation.mode === 'run'
-  }), props.navigation.page({ ...props,
-    [props.navigation.direction]: true,
-    enter: true,
-    run: props.navigation.mode === 'run'
-  })]);
-};
-
-exports.default = _default;
-},{"./html":"html.js"}],"main-actions.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Init = void 0;
-
-var _navigationActions = require("./navigation-actions");
-
-var _happinessSelector = require("./happiness-selector");
-
-var _tallyActions = require("./tally-actions");
-
-const Init = (_, initialPage) => (0, _navigationActions.Init)((0, _tallyActions.Init)((0, _happinessSelector.Init)({})), initialPage); //NavInit(TallyInit(HappinessInit({})), initialPage)
-
-
-exports.Init = Init;
-},{"./navigation-actions":"navigation-actions.js","./happiness-selector":"happiness-selector.js","./tally-actions":"tally-actions.js"}],"index.js":[function(require,module,exports) {
+},{"../components/message":"components/message.js","../navigation":"navigation.js","./start":"pages/start.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _hyperapp = require("hyperapp");
 
-var _logger = _interopRequireDefault(require("./logger"));
+var _logger = _interopRequireDefault(require("./util/logger"));
 
-var _html = _interopRequireDefault(require("./html"));
+var _body = _interopRequireDefault(require("./components/body"));
 
 var _immediate = _interopRequireDefault(require("./fx/immediate"));
 
 var _init = _interopRequireDefault(require("./pages/init"));
 
-var _navigationContainer = _interopRequireDefault(require("./navigation-container"));
+var Nav = _interopRequireWildcard(require("./navigation"));
 
-var _mainActions = require("./main-actions");
+var Happiness = _interopRequireWildcard(require("./happiness"));
+
+var Votes = _interopRequireWildcard(require("./votes"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, _hyperapp.app)({
-  init: [{}, (0, _immediate.default)(_mainActions.Init, _init.default)],
-  view: state => {
-    return _html.default.body({}, (0, _navigationContainer.default)({
-      navigation: state.navigation,
-      happiness: state.happiness,
-      tally: state.tally
-    }));
-  },
-  node: document.body
-}, //*
-_logger.default //*/
-);
-},{"hyperapp":"../node_modules/hyperapp/src/index.js","./logger":"logger.js","./html":"html.js","./fx/immediate":"fx/immediate.js","./pages/init":"pages/init.js","./navigation-container":"navigation-container.js","./main-actions":"main-actions.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+  init: [{}, (0, _immediate.default)(Nav.Init, _init.default), (0, _immediate.default)(Happiness.Init), (0, _immediate.default)(Votes.Init)],
+  view: state => (0, _body.default)({}, Nav.Container({
+    state
+  })),
+  node: document.body //    ,logger
+
+});
+},{"hyperapp":"../node_modules/hyperapp/src/index.js","./util/logger":"util/logger.js","./components/body":"components/body.js","./fx/immediate":"fx/immediate.js","./pages/init":"pages/init.js","./navigation":"navigation.js","./happiness":"happiness.js","./votes":"votes.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -1125,7 +1167,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51755" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55841" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

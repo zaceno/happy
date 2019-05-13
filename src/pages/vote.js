@@ -1,26 +1,23 @@
-import html from '../html'
-const { p } = html
-import Page from '../navigation-page'
-import NavButton from '../navigation-button'
-import PassPage from './pass'
-import * as HappinessSelector from '../happiness-selector'
-import { CommitVote } from '../tally-actions'
 import Immediate from '../fx/immediate'
+import * as Nav from '../navigation'
+import * as Happiness from '../happiness'
+import * as Votes from '../votes'
+import PassPage from './pass'
 
 const CommitAndReset = (state, happiness) => [
     state,
-    Immediate(CommitVote, happiness),
-    Immediate(HappinessSelector.Init),
+    Immediate(Votes.Vote, happiness),
+    Immediate(Happiness.Init),
 ]
 
-export default props =>
-    Page(props, [
-        HappinessSelector.View({ value: props.happiness }),
-        NavButton(
+export default ({ state, ...pageProps }) =>
+    Nav.Page(pageProps, [
+        Happiness.View({ state }),
+        Nav.Button(
             {
                 direction: 'left',
                 page: PassPage,
-                onnavigate: [CommitAndReset, props.happiness],
+                onnavigate: [CommitAndReset, Happiness.Value(state)],
             },
             'Cast vote!'
         ),

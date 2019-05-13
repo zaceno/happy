@@ -1,5 +1,5 @@
-import html from './html'
-import { EndTransition } from './navigation-actions'
+import html from '../util/html'
+
 export default (props, children) =>
     html.section(
         {
@@ -11,7 +11,7 @@ export default (props, children) =>
                 left: props.left,
                 right: props.right,
             },
-            ontransitionend: EndTransition,
+            ontransitionend: props.ontransitionend,
         },
         children
     )

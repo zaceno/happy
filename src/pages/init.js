@@ -1,11 +1,9 @@
-import html from '../html'
-const { p } = html
-import Page from '../navigation-page'
-import NavButton from '../navigation-button'
+import Message from '../components/message'
+import * as Nav from '../navigation'
 import StartPage from './start'
 
-export default props =>
-    Page(props, [
-        p({}, 'Happiness Index Calculator'),
-        NavButton({ direction: 'left', page: StartPage }, 'Start'),
+export default ({ state, ...pageProps }) =>
+    Nav.Page(pageProps, [
+        Message('Happiness Index Calculator'),
+        Nav.Button({ direction: 'left', page: StartPage }, 'Start'),
     ])

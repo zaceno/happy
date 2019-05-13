@@ -1,27 +1,22 @@
 import { app } from 'hyperapp'
-import logger from './logger'
-import html from './html'
+import logger from './util/logger'
+import Body from './components/body'
 import Immediate from './fx/immediate'
 import InitPage from './pages/init'
-import NavFrame from './navigation-container'
-import { Init } from './main-actions'
+import * as Nav from './navigation'
+import * as Happiness from './happiness'
+import * as Votes from './votes'
 
 app(
     {
-        init: [{}, Immediate(Init, InitPage)],
-        view: state => {
-            return html.body(
-                {},
-                NavFrame({
-                    navigation: state.navigation,
-                    happiness: state.happiness,
-                    tally: state.tally,
-                })
-            )
-        },
+        init: [
+            {},
+            Immediate(Nav.Init, InitPage),
+            Immediate(Happiness.Init),
+            Immediate(Votes.Init),
+        ],
+        view: state => Body({}, Nav.Container({ state })),
         node: document.body,
-    },
-    //*
-    logger
-    //*/
+    }
+    //    ,logger
 )
