@@ -6,7 +6,9 @@ import NavPage from './components/navigation-page'
 import NavContainer from './components/navigation-container'
 
 const RunTransition = state => ({ ...state, nav: actions.run(state.nav) })
+
 const EndTransition = state => ({ ...state, nav: actions.finish(state.nav) })
+
 const Navigate = (state, props) => {
     if (state.nav.mode !== 'idle') return state
     return [
