@@ -1,7 +1,17 @@
-import { Select } from './happiness-selector-actions'
+import * as calc from './calcs/select'
 import html from './html'
 const { ul, li } = html
-export default ({ value }) =>
+
+const Select = (state, x) => ({
+    ...state,
+    happiness: calc.select(state.happiness, x),
+})
+const Init = (state, x) => ({
+    ...state,
+    happiness: calc.reset(state.happiness),
+})
+
+const View = ({ value }) =>
     ul({ class: 'voter' }, [
         li(
             { onclick: [Select, 0], class: { selected: value === 0 } },
@@ -25,3 +35,4 @@ export default ({ value }) =>
             'Very Unhappy'
         ),
     ])
+export { Init, View }

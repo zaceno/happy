@@ -1,19 +1,22 @@
 {
-  "name": "happy",
-  "version": "2.0.0",
-  "private": true,
-  "description": "\"A web app for anonymously collecting the average happiness (on a scale 1-5) of a team\"",
-  "main": "dist/index.html",
-  "dependencies": {
-    "hyperapp": "2.0.0-beta.11",
-    "parcel-bundler": "^1.12.3"
-  },
-  "scripts": {},
-  "author": "Zacharias Enochsson",
-  "license": "MIT",
-  "homepage": "https://zaceno.github.io/happy",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/zaceno/happy.git"
-  }
+    "name": "happy",
+    "version": "2.0.0",
+    "private": true,
+    "description": "\"A web app for anonymously collecting the average happiness (on a scale 1-5) of a team\"",
+    "main": "dist/index.html",
+    "dependencies": {
+        "hyperapp": "2.0.0-beta.11",
+        "parcel-bundler": "^1.12.3"
+    },
+    "scripts": {},
+    "author": "Zacharias Enochsson",
+    "license": "MIT",
+    "homepage": "https://zaceno.github.io/happy",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/zaceno/happy.git"
+    },
+    "browserslist": [
+        "last 1 Chrome version"
+    ]
 }

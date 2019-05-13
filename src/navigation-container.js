@@ -1,6 +1,5 @@
 import html from './html'
 export default props => {
-    console.log('MAIN', props)
     return html.main(
         { class: 'container' },
         props.navigation.mode == 'idle'

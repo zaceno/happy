@@ -3,10 +3,10 @@ const { p } = html
 import Page from '../navigation-page'
 import NavButton from '../navigation-button'
 import StartPage from './start'
-import CalcAverage from '../calc-average'
+import { avg } from '../calcs/vote'
 
 export default props =>
     Page(props, [
-        p(['Memory Cleared!', CalcAverage(props.tally)]),
+        p(['Memory Cleared!', avg(props.tally)]),
         NavButton({ direction: 'right', page: StartPage }, 'Start Again'),
     ])
