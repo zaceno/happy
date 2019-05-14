@@ -17,6 +17,6 @@ app(
         ],
         view: state => Body({}, Nav.Container(state)),
         node: document.body,
-    },
-    logger
+    }
+    //,logger
 )
