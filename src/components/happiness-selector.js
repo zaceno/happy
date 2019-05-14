@@ -1,3 +1,4 @@
+import Icon from './icon'
 import html from '../util/html'
 const { ul, li, p } = html
 
@@ -42,7 +43,7 @@ const options = [
 
 export default ({ value, set }) =>
     ul(
-        { class: 'voter' },
+        { class: 'happinessSelector' },
         options.map(opt =>
             li(
                 {
@@ -50,6 +51,7 @@ export default ({ value, set }) =>
                     class: { selected: value === opt.value },
                 },
                 [
+                    Icon({ name: opt.icon }),
                     p({ class: 'mainText' }, opt.label),
                     p({ class: 'extraText' }, opt.extra),
                 ]

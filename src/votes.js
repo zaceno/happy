@@ -1,4 +1,3 @@
-import * as actions from './actions/vote'
 import HappinessResult from './components/happiness-result'
 
 const Vote = (state, vote) =>
