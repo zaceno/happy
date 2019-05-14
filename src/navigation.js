@@ -36,8 +36,9 @@ export const Init = (state, page) => ({
     nav: { mode: 'idle', page },
 })
 
-export const Button = ({ page, direction, onnavigate, text, extra }) =>
+export const Button = (state, { page, direction, onnavigate, text, extra }) =>
     NavButton({
+        active: state.nav.mode !== 'idle' && state.nav.page === page,
         text,
         extra,
         direction,

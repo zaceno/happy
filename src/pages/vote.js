@@ -14,7 +14,7 @@ const CommitAndReset = (state, happiness) => [
 export default Nav.Page(state => [
     Message('How happy are you about your job?'),
     Happiness.View(state),
-    Nav.Button({
+    Nav.Button(state, {
         direction: 'left',
         page: PassPage,
         onnavigate: [CommitAndReset, Happiness.Value(state)],

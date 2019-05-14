@@ -5,7 +5,7 @@ import ResetPage from './reset'
 
 export default Nav.Page(state => [
     Message(['Happiness index: ', Votes.View(state)]),
-    Nav.Button({
+    Nav.Button(state, {
         direction: 'left',
         page: ResetPage,
         onnavigate: Votes.Init,

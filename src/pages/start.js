@@ -4,7 +4,7 @@ import VotePage from './vote'
 
 export default Nav.Page(state => [
     Message('Please pass the phone to the first person'),
-    Nav.Button({
+    Nav.Button(state, {
         direction: 'left',
         page: VotePage,
         extra: "When you're ready, tap here to...",

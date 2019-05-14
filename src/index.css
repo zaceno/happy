@@ -101,6 +101,12 @@ body,
     font-size: 0.6em;
 }
 
+.navButton.active {
+    background-color: #c37831;
+    text-shadow: #7a4a1e;
+
+}
+
 .enter,
 .exit {
     transition: transform 450ms;
@@ -171,6 +177,24 @@ body,
     top: 0.5em;
     bottom: 0.5em;
     width: 2em;
+}
+
+.happinessResult {
+    color: #555;
+    font-size: 2.5em;
+    display: block;
+    width: 4em;
+    height: 4em;
+    border-radius: 2em;
+    border: 3px #555 solid;
+    background: #fff;
+    text-align: center;
+    line-height: 3.8em;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+
 }
 
 .icon line,

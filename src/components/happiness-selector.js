@@ -47,7 +47,8 @@ export default ({ value, set }) =>
         options.map(opt =>
             li(
                 {
-                    onclick: [set, opt.value],
+                    ontouchstart: [set, opt.value],
+                    onmousedown: [set, opt.value],
                     class: { selected: value === opt.value },
                 },
                 [

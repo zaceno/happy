@@ -4,7 +4,7 @@ import StartPage from './start'
 
 export default Nav.Page(state => [
     Message('Happiness Index Calculator'),
-    Nav.Button({
+    Nav.Button(state, {
         direction: 'left',
         page: StartPage,
         text: 'Start',

@@ -4,8 +4,8 @@ import StartPage from './start'
 import * as Votes from '../votes'
 
 export default Nav.Page(state => [
-    Message(['Memory Cleared!', Votes.View(state)]),
-    Nav.Button({
+    Message(['Votes cleared from memory', Votes.View(state)]),
+    Nav.Button(state, {
         direction: 'right',
         page: StartPage,
         extra: 'Tap here to...',
