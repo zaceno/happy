@@ -12,7 +12,8 @@
     },
     "scripts": {
         "dev": "parcel src/index.html --open safari",
-        "build": "parcel build -d docs/ src/index.html"
+        "prebuild": "rm -rf docs/",
+        "build": "parcel build --public-url /happy/ -d docs/ src/index.html"
     },
     "author": "Zacharias Enochsson",
     "license": "MIT",
