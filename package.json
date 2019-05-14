@@ -5,10 +5,15 @@
     "description": "\"A web app for anonymously collecting the average happiness (on a scale 1-5) of a team\"",
     "main": "dist/index.html",
     "dependencies": {
-        "hyperapp": "2.0.0-beta.11",
+        "hyperapp": "2.0.0-beta.11"
+    },
+    "devDependencies": {
         "parcel-bundler": "^1.12.3"
     },
-    "scripts": {},
+    "scripts": {
+        "dev": "parcel src/index.html --open safari",
+        "build": "parcel build -d docs/ src/index.html"
+    },
     "author": "Zacharias Enochsson",
     "license": "MIT",
     "homepage": "https://zaceno.github.io/happy",
