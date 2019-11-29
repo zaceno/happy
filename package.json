@@ -5,10 +5,11 @@
     "description": "\"A web app for anonymously collecting the average happiness (on a scale 1-5) of a team\"",
     "main": "dist/index.html",
     "dependencies": {
-        "hyperapp": "2.0.0-beta.11"
+        "hyperapp": "^2.0.3",
+        "hyperapp-map": "^1.1.0"
     },
     "devDependencies": {
-        "parcel-bundler": "^1.12.3"
+        "parcel-bundler": "^1.12.4"
     },
     "scripts": {
         "dev": "parcel src/index.html --open safari",
