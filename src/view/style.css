@@ -1,0 +1,51 @@
+.navButton {
+    flex: 0 0 auto;
+    position: relative;
+    height: 15%;
+    color: #fff;
+    background-color: #d6975c;
+    text-shadow: 0 0 1px #7a4a1e; /* darkened background color 50% */
+}
+.navButton .chevron {
+    position: absolute;
+    top: 20%;
+    height: 60%;
+    width: 2em;
+    filter: drop-shadow(0 0 1px #0e6284);
+    stroke: #fff;
+    fill: transparent;
+    stroke-linecap: 'butt';
+    stroke-width: 3;
+}
+.navButton.right .chevron {
+    right: 0;
+}
+
+.navButton.left .chevron {
+    left: 0;
+    transform: scale(-1, 1);
+}
+
+.navButton .active {
+    background-color: #c37831;
+    text-shadow: #7a4a1e;
+}
+
+.label {
+    font-size: 1.2em;
+    text-transform: uppercase;
+}
+
+.extra {
+    font-size: 0.6em;
+}
+
+.panel {
+    flex: 1 0 auto;
+    margin: 0.5em;
+    background: #eee;
+    border: 1px #bebebe solid; /*darkened bg 20%*/
+    padding: 0.5em;
+    color: #555;
+    text-shadow: 0px 1px 1px #fff;
+}
