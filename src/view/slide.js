@@ -1,17 +1,21 @@
 import { h } from 'hyperapp'
-export default (props, content) =>
+
+export default (
+    { ontransitionend, transitionName, isExiting, isEntering, isRunning },
+    content
+) =>
     h(
         'section',
         {
-            class: {
-                navPage: true,
-                exit: props.exiting,
-                enter: props.entering,
-                run: props.running,
-                left: props.left,
-                right: props.right,
-            },
-            ontransitionend: props.ontransitionend,
+            class: [
+                'navPage',
+                {
+                    [transitionName + '-enter']: isEntering,
+                    [transitionName + '-exit']: isExiting,
+                    [transitionName + '-run']: isRunning,
+                },
+            ],
+            ontransitionend,
         },
         content
     )

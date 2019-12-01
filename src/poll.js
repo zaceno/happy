@@ -1,9 +1,15 @@
-import { current, select, average, commit, init, reset } from './model/poll'
-import _result from './view/result'
-import _poll from './view/poll'
+import * as model from './model/poll'
+import { mapPoll, getPoll } from './model/main'
+import Result from './view/result'
+import Poll from './view/poll'
 
-const poll = state => _poll({ value: current(state), set: select })
+const poll = state =>
+    mapPoll(Poll({ value: model.current(getPoll(state)), set: model.select }))
 
-const result = state => _result(average(state))
+const result = state => mapPoll(Result(model.average(getPoll(state))))
 
-export { init, reset, commit, poll, result }
+const reset = mapPoll(model.reset)
+const commit = mapPoll(model.commit)
+const { init } = model
+
+export { init, result, poll, reset, commit }
