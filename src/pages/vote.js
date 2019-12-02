@@ -1,16 +1,16 @@
-import PassPage from './pass'
-import * as slides from '../slides'
-import * as poll from '../poll'
+import { go, steps } from '../model/main'
 import Message from '../view/message'
+import Slide from '../view/slide'
+import NavButton from '../view/navbutton'
+import { poll as pollSelectView } from '../poll'
 
-export default slides.define(state => [
-    Message('How happy are you about your job?'),
-    poll.poll(state),
-    slides.navbutton(state, {
-        direction: 'right',
-        page: PassPage,
-        onnavigate: poll.commit,
-        extra: 'Make your selection, then tap here to...',
-        text: 'Cast vote',
-    }),
-])
+export default state =>
+    Slide({}, [
+        Message('How happy are you about your job?'),
+        pollSelectView(state),
+        NavButton({
+            onclick: [go, steps.pass],
+            extra: 'Make your selection, then tap here to...',
+            text: 'Cast vote',
+        }),
+    ])

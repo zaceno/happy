@@ -2,13 +2,14 @@ import { go, steps } from '../model/main'
 import Message from '../view/message'
 import Slide from '../view/slide'
 import NavButton from '../view/navbutton'
+import { result as pollResultView } from '../poll'
 
 export default state =>
     Slide({}, [
-        Message('Please pass the phone to the first person'),
+        Message(['Votes cleared from memory', pollResultView(state)]),
         NavButton({
-            onclick: [go, steps.vote],
-            extra: "When you're ready, tap here to...",
-            text: 'Vote',
+            onclick: [go, steps.start],
+            extra: 'Tap here to...',
+            text: 'Start again',
         }),
     ])

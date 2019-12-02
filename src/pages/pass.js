@@ -1,20 +1,19 @@
+import { go, steps } from '../model/main'
 import Message from '../view/message'
-import * as slides from '../slides'
-import VotePage from './vote'
-import ResultPage from './result'
+import Slide from '../view/slide'
+import NavButton from '../view/navbutton'
 
-export default slides.define(state => [
-    slides.navbutton(state, {
-        direction: 'right',
-        page: ResultPage,
-        text: 'Check Result',
-        extra: 'Has everyone voted? Tap here to...',
-    }),
-    Message('Thank you! Now, please hand the phone to the next person.'),
-    slides.navbutton(state, {
-        direction: 'left',
-        page: VotePage,
-        text: 'Vote',
-        extra: 'Are you the next person? Tap here to...',
-    }),
-])
+export default state =>
+    Slide({}, [
+        NavButton({
+            onclick: [go, steps.result],
+            extra: 'Has everyone voted? Tap here to...',
+            text: 'Check Result',
+        }),
+        Message('Thank you! Now, please hand the phone to the next person.'),
+        NavButton({
+            onclick: [go, steps.vote],
+            extra: 'Are you the next person? Tap here to...',
+            text: 'Vote',
+        }),
+    ])

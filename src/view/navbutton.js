@@ -1,12 +1,12 @@
 import { h } from 'hyperapp'
 
-export default ({ direction, onnavigate, active, text, extra }) =>
+export default ({ onclick, text, extra }) =>
     h(
         'button',
         {
-            class: { navButton: true, active },
-            onmousedown: onnavigate,
-            ontouchstart: onnavigate,
+            class: 'navButton',
+            onmousedown: onclick,
+            ontouchstart: onclick,
         },
         [
             //Chevron({ direction }),

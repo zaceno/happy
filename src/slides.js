@@ -2,7 +2,7 @@ import * as model from './model/slides'
 import dispatch from './lib/dispatch'
 import { getSlides, mapSlides } from './model/main'
 import Slide from './view/slide'
-import SlideContainer from './view/slide-container'
+import SlideContainer from './view/container'
 import NavButton from './view/navbutton'
 
 const define = contentFn =>

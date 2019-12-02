@@ -5,11 +5,6 @@ import Poll from './view/poll'
 
 const poll = state =>
     mapPoll(Poll({ value: model.current(getPoll(state)), set: model.select }))
-
 const result = state => mapPoll(Result(model.average(getPoll(state))))
 
-const reset = mapPoll(model.reset)
-const commit = mapPoll(model.commit)
-const { init } = model
-
-export { init, result, poll, reset, commit }
+export { result, poll }
