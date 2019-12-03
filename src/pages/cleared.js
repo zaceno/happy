@@ -1,16 +1,17 @@
-import { go, steps, getCurrent } from '../model/main'
+import * as model from '../model/main'
 import Message from '../view/message'
-import Slide from '../view/slide'
 import NavButton from '../view/navbutton'
-import { result as pollResultView } from '../poll'
+import { result as PollResult } from '../poll'
 
-export default (state, transition) =>
-    Slide(transition, [
-        Message(['Votes cleared from memory', pollResultView(state)]),
-        NavButton({
-            onclick: [go, steps.start],
-            extra: 'Tap here to...',
-            text: 'Start again',
-            active: getCurrent(state) === steps.start,
-        }),
-    ])
+export default state => [
+    Message([
+        'Votes cleared from memory',
+        model.mapPoll(PollResult(model.getPoll(state))),
+    ]),
+    NavButton({
+        onclick: [model.go, model.steps.start],
+        extra: 'Tap here to...',
+        text: 'Start again',
+        active: model.getCurrent(state) === model.steps.start,
+    }),
+]

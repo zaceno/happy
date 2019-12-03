@@ -1,7 +1,7 @@
 import map from 'hyperapp-map'
+import * as transition from './transition'
 import * as poll from './poll'
 import dispatch from '../lib/dispatch'
-import nextFrame from '../lib/next-frame'
 
 const steps = {
     init: Symbol('init-step'),
@@ -12,60 +12,49 @@ const steps = {
     cleared: Symbol('cleared-step'),
 }
 
-const transitions = {
-    left: Symbol('left-transition'),
-    right: Symbol('right-transition'),
-    fade: Symbol('no-transition'),
-}
-
 const calculateTransitionType = (from, to) =>
     (from === steps.pass && to === steps.vote) ||
     (from === steps.cleared && to === steps.start)
-        ? transitions.left
+        ? transition.types.left
         : from === steps.result && to === steps.cleared
-        ? transitions.fade
-        : transitions.right
+        ? transition.types.fade
+        : transition.types.right
 
 const getPoll = state => state.poll
 const mapPoll = map(getPoll, (state, poll) => ({ ...state, poll }))
+const getTransition = state => state.transition
+const mapTransition = map(getTransition, (state, transition) => ({
+    ...state,
+    transition,
+}))
+
+const getCurrent = state => getTransition(state).current
 
 const go = (state, step) => [
-    {
-        ...state,
-        step,
-        transition: {
-            prev: state.step,
-            type: calculateTransitionType(state.step, step),
-            running: false,
+    state,
+    dispatch([
+        mapTransition(transition.start),
+        {
+            next: step,
+            type: calculateTransitionType(getCurrent(state), step),
         },
-    },
-    nextFrame(runTransition),
-    state.step === steps.vote && dispatch(mapPoll(poll.commit)),
+    ]),
+    getCurrent(state) === steps.vote && dispatch(mapPoll(poll.commit)),
     step === steps.cleared && dispatch(mapPoll(poll.reset)),
 ]
 
-const runTransition = state => ({
-    ...state,
-    transition: { ...state.transition, running: true },
-})
-
-const endTransition = state => ({ ...state, transition: null })
-const getTransition = state => state.transition
-const getCurrent = state => state.step
-
 const init = {
-    step: steps.init,
     poll: poll.init,
+    transition: transition.init(steps.init),
 }
 
 export {
     steps,
-    transitions,
-    getTransition,
-    endTransition,
     init,
     go,
+    getCurrent,
     mapPoll,
     getPoll,
-    getCurrent,
+    getTransition,
+    mapTransition,
 }
