@@ -1,10 +1,10 @@
 import { h } from 'hyperapp'
 
-export default ({ onclick, text, extra }) =>
+export default ({ onclick, text, extra, active }) =>
     h(
         'button',
         {
-            class: 'navButton',
+            class: { navButton: true, active },
             onmousedown: onclick,
             ontouchstart: onclick,
         },
