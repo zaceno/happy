@@ -1,27 +1,48 @@
-import * as model from './model/main'
-import ClearedPage from './pages/cleared'
-import InitPage from './pages/initial'
-import PassPage from './pages/pass'
-import ResultPage from './pages/result'
-import StartPage from './pages/start'
-import VotePage from './pages/vote'
-import * as transition from './transition'
-const init = model.init
+import { h as _h } from 'hyperapp'
+const h = (tag, props, children, vnode = _h(tag, props, children)) => props.map ? props.map(vnode) : vnode
 
-const getPage = step =>
-    ({
-        [model.steps.init]: InitPage,
-        [model.steps.start]: StartPage,
-        [model.steps.vote]: VotePage,
-        [model.steps.pass]: PassPage,
-        [model.steps.result]: ResultPage,
-        [model.steps.cleared]: ClearedPage,
-    }[step])
+const navigation = (() => {
 
-const view = state =>
-    transition.view(model.getTransition(state), {
-        map: model.mapTransition,
-        content: step => getPage(step)(state),
-    })
+    const init = x => x
+
+    const current = x => x
+    const set = x => x
+
+    const button = ({page, text, extra }) => (
+        <button
+            class="navButton"
+            onmousedown={[set, page]}
+            ontouchstart={[set, page]}
+        >
+            <p class="extraText">{extra}</p>
+            <p class="mainText">{text}</p>
+        </button>
+    )
+
+    const 
+
+    return { button, current }
+})()
+
+
+const init = {
+
+}
+
+const view = state => (
+    <main class="navContainer">
+        <section class="navPage">
+            <div class="message">Happiness Index Calculator</div>
+            <button
+                class="navButton"
+                onmousedown={goToStart}
+                ontouchstart={goToStart}
+            >
+                <p class="extraText">Tap here to ...</p>
+                <p class="mainText">Start</p>
+            </button>
+        </section>
+    </main>
+)
 
 export { init, view }
