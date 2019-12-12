@@ -1,14 +1,3 @@
-/*
-
-makeActionMap = (extract, merge) -> action Map
-
-put any Action in it, and it will return the corresponding action
-it will first dig into a stack of payload filters to apply the transform
-to the actual function. If the actual function is in memo, it will return
-the memoized transform. Otherwise it will return a new transform of the action
-and memoize the transform. And part of that means using the
-
-*/
 const isFunc = x => typeof x === 'function'
 
 const isAction = action =>
@@ -52,16 +41,15 @@ const makeActionMap = (extract, merge) => {
     }
     memoizedMap.memo = new Map()
     let actualMap = actionStack => deepMap(memoizedMap, actionStack)
-    let unmappableMap = actionStack =>
-        actionStack._x
-            ? ((actionStack._x = false), actionStack)
-            : actualMap(actionStack)
-    return unmappableMap
+    return actualMap
 }
 
 const mapObj = (map, obj) =>
     Object.entries(obj)
-        .map(([k, v]) => [k, isAction(v) ? map(v) : v])
+        .map(([k, v]) => [
+            k,
+            isAction(v) ? (v._x ? ((v._x = false), v) : map(v)) : v,
+        ])
         .reduce((o, [k, v]) => ((o[k] = v), o), {})
 
 const mapEffects = (map, effects) =>
@@ -80,10 +68,10 @@ const mapVNode = (map, vnode) =>
           }
         : vnode
 
-const unmapper = action => ((action._x = true), action)
 export const make = makeActionMap
 export const view = mapVNode
-export const unmap = x => mapVNode(unmapper, x)
+export const pass = vnode =>
+    mapVNode(action => ((action._x = true), action), vnode)
 export const fx = mapEffects
 
 // export default (extract, merge, map = makeActionMap(extract, merge)) => x =>

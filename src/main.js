@@ -5,10 +5,36 @@ const nextFrame = (f => a => [f, { a }])((d, { a }) =>
     requestAnimationFrame(_ => d(a))
 )
 
+const transition = (() => {
+    const init = x => ({ current: x, running: false, previous: null })
+    const start = (state, { next, name }) => [
+        { current: next, previous: state.current, running: false, name },
+        nextFrame(run),
+    ]
+    const run = state => ({ ...state, running: true })
+    const finish = state => ({ ...state, running: false, previous: null })
+    const current = ({ state, tag, className }, content) =>
+        h(tag, {
+            class: [
+                className,
+                {
+                    entering: !!state.previous,
+                    runnign,
+                },
+            ],
+        })
+    const previous = {}
+})()
+
 const navigation = (() => {
-    const init = page => page
-    const go = (state, to) => to
-    const button = (state, { to, label, extra }) => (
+    const init = page => ({
+        transition: transition.init(page),
+    })
+
+    //when go is called with page and direction,
+    //we want to
+
+    const button = ({ to, label, extra }) => (
         <button
             class="navButton"
             onmousedown={[go, to]}
@@ -19,7 +45,7 @@ const navigation = (() => {
         </button>
     )
 
-    const view = (state, props, content) => (
+    const view = content => (
         <main class="navContainer">
             <section class="navPage">{content}</section>
         </main>
@@ -28,77 +54,49 @@ const navigation = (() => {
     return { init, button, view }
 })()
 
-const counter = (() => {
-    const init = 7
-    const incr = x => x + 1
-    const decr = y => y - 1
-    const view = state => (
-        <p>
-            <button onclick={decr}>-</button>
-            {state}
-            <button onclick={incr}>+</button>
-        </p>
-    )
-    return { init, view }
-})()
-
-const init = { nav: navigation.init('init'), counter: counter.init }
+const init = { nav: navigation.init('init') }
 
 const navMap = map.make(
     state => state.counter,
     (state, nav) => ({ ...state, nav })
 )
 
-const counterMap = map.make(
-    state => state.counter,
-    (state, counter) => ({ ...state, counter })
-)
-
 const view = state =>
-    state.nav === 'init'
-        ? map.view(
-              navMap,
-              navigation.view(
-                  state.nav,
-                  {},
-                  map.unmap([
-                      <div class="message">
-                          Happiness Index Calculator
-                          {map.view(counterMap, counter.view(state.counter))}
-                      </div>,
+    map.view(
+        navMap,
+        navigation.view(
+            map.pass(
+                state.nav === 'init'
+                    ? [
+                          <div class="message">Happiness Index Calculator</div>,
 
-                      map.view(
-                          navMap,
-                          navigation.button(state.nav, {
-                              to: 'start',
-                              extra: 'Tap here to...',
-                              label: 'Start',
-                          })
-                      ),
-                  ])
-              )
-          )
-        : state.nav === 'start'
-        ? map.view(
-              navMap,
-              navigation.view(
-                  state.nav,
-                  {},
-                  map.unmap([
-                      <div class="message">
-                          Please pass the phone to the first person
-                      </div>,
-                      map.view(
-                          navMap,
-                          navigation.button(state.nav, {
-                              to: 'init',
-                              extra: "When you're ready, tap here to...",
-                              label: 'Vote',
-                          })
-                      ),
-                  ])
-              )
-          )
-        : null
+                          map.view(
+                              navMap,
+                              navigation.button({
+                                  to: 'start',
+                                  extra: 'Tap here to...',
+                                  label: 'Start',
+                              })
+                          ),
+                      ]
+                    : state.nav === 'start'
+                    ? [
+                          <div class="message">
+                              Please pass the phone to the first person
+                          </div>,
+
+                          map.view(
+                              navMap,
+                              navigation.button({
+                                  to: 'init',
+                                  extra: "When you're ready, tap here to...",
+                                  label: 'Vote',
+                              })
+                          ),
+                      ]
+                    : null
+            )
+        )
+    )
 
 export { init, view }
