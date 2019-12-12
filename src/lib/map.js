@@ -52,7 +52,11 @@ const makeActionMap = (extract, merge) => {
     }
     memoizedMap.memo = new Map()
     let actualMap = actionStack => deepMap(memoizedMap, actionStack)
-    return actualMap
+    let unmappableMap = actionStack =>
+        actionStack._x
+            ? ((actionStack._x = false), actionStack)
+            : actualMap(actionStack)
+    return unmappableMap
 }
 
 const mapObj = (map, obj) =>
@@ -76,8 +80,10 @@ const mapVNode = (map, vnode) =>
           }
         : vnode
 
+const unmapper = action => ((action._x = true), action)
 export const make = makeActionMap
 export const view = mapVNode
+export const unmap = x => mapVNode(unmapper, x)
 export const fx = mapEffects
 
 // export default (extract, merge, map = makeActionMap(extract, merge)) => x =>
