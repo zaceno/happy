@@ -1,102 +1,134 @@
+import * as poll from './poll'
+import * as slides from './slides'
 import { h } from 'hyperapp'
 import * as map from './lib/map'
+import dispatch from './lib/dispatch'
 
-const nextFrame = (f => a => [f, { a }])((d, { a }) =>
-    requestAnimationFrame(_ => d(a))
+const init = { slides: slides.init('init'), poll: poll.init }
+
+const pollMap = map.make(
+    state => state.poll,
+    (state, poll) => ({ ...state, poll })
 )
 
-const transition = (() => {
-    const init = x => ({ current: x, running: false, previous: null })
-    const start = (state, { next, name }) => [
-        { current: next, previous: state.current, running: false, name },
-        nextFrame(run),
+const slideMap = map.make(
+    state => state.slides,
+    (state, slideState) => [
+        { ...state, slides: slideState },
+        slides.getLeaving(slideState) === 'vote' &&
+            dispatch(pollMap(poll.commit)),
+        slides.getEntering(slideState) === 'cleared' &&
+            dispatch(pollMap(poll.reset)),
     ]
-    const run = state => ({ ...state, running: true })
-    const finish = state => ({ ...state, running: false, previous: null })
-    const current = ({ state, tag, className }, content) =>
-        h(tag, {
-            class: [
-                className,
-                {
-                    entering: !!state.previous,
-                    runnign,
-                },
-            ],
-        })
-    const previous = {}
-})()
-
-const navigation = (() => {
-    const init = page => ({
-        transition: transition.init(page),
-    })
-
-    //when go is called with page and direction,
-    //we want to
-
-    const button = ({ to, label, extra }) => (
-        <button
-            class="navButton"
-            onmousedown={[go, to]}
-            ontouchstart={[go, to]}
-        >
-            <p class="extraText">{extra}</p>
-            <p class="mainText">{label}</p>
-        </button>
-    )
-
-    const view = content => (
-        <main class="navContainer">
-            <section class="navPage">{content}</section>
-        </main>
-    )
-
-    return { init, button, view }
-})()
-
-const init = { nav: navigation.init('init') }
-
-const navMap = map.make(
-    state => state.counter,
-    (state, nav) => ({ ...state, nav })
 )
+
+const NavButton = (
+    state,
+    { to, direction, extra, label },
+    go = slideMap([slides.go, { to, direction }]),
+    active = slides.getEntering(state.slides) === to
+) =>
+    h(
+        'button',
+        {
+            class: {
+                navButton: true,
+                active,
+            },
+            onmousedown: go,
+            ontouchstart: go,
+        },
+        [
+            h('p', { class: 'extraText' }, extra),
+            h('p', { class: 'mainText' }, label),
+        ]
+    )
+
+const pages = {
+    init: state => [
+        <div class="message">Happiness Index Calculator</div>,
+
+        NavButton(state, {
+            to: 'start',
+            direction: 'right',
+            extra: 'Tap here to...',
+            label: 'Start',
+        }),
+    ],
+
+    start: state => [
+        <div class="message">Please pass the phone to the first person</div>,
+
+        NavButton(state, {
+            direction: 'right',
+            to: 'vote',
+            extra: "When you're ready, tap here to...",
+            label: 'Vote',
+        }),
+    ],
+
+    vote: state => [
+        h('div', { class: 'message' }, ['How happy are you about your job?']),
+        map.view(pollMap, poll.selector(state.poll)),
+        NavButton(state, {
+            direction: 'right',
+            to: 'pass',
+            extra: 'Make your selection, then tap here to...',
+            label: 'Cast Vote',
+        }),
+    ],
+
+    pass: state => [
+        NavButton(state, {
+            direction: 'right',
+            to: 'result',
+            extra: 'Has everyone voted? Tap here to...',
+            label: 'Check Result',
+        }),
+        h(
+            'div',
+            { class: 'message' },
+            'Thank you! Now, please hand the phone to the next person.'
+        ),
+        NavButton(state, {
+            direction: 'left',
+            to: 'vote',
+            extra: 'Are you the next person? Tap here to...',
+            label: 'Vote',
+        }),
+    ],
+
+    result: state => [
+        h('div', { class: 'message' }, [
+            'Happiness Index:',
+            map.view(pollMap, poll.result(state.poll)),
+        ]),
+        NavButton(state, {
+            direction: 'right',
+            to: 'cleared',
+            extra: 'Need to do it again? Tap here to...',
+            label: 'Reset Votes',
+        }),
+    ],
+
+    cleared: state => [
+        h('div', { class: 'message' }, [
+            'All votes cleared from memory!',
+            map.view(pollMap, poll.result(state.poll)),
+        ]),
+        NavButton(state, {
+            to: 'start',
+            direction: 'left',
+            extra: 'Tap here to...',
+            label: 'Start Again',
+        }),
+    ],
+}
 
 const view = state =>
     map.view(
-        navMap,
-        navigation.view(
-            map.pass(
-                state.nav === 'init'
-                    ? [
-                          <div class="message">Happiness Index Calculator</div>,
-
-                          map.view(
-                              navMap,
-                              navigation.button({
-                                  to: 'start',
-                                  extra: 'Tap here to...',
-                                  label: 'Start',
-                              })
-                          ),
-                      ]
-                    : state.nav === 'start'
-                    ? [
-                          <div class="message">
-                              Please pass the phone to the first person
-                          </div>,
-
-                          map.view(
-                              navMap,
-                              navigation.button({
-                                  to: 'init',
-                                  extra: "When you're ready, tap here to...",
-                                  label: 'Vote',
-                              })
-                          ),
-                      ]
-                    : null
-            )
-        )
+        slideMap,
+        slides.view(state.slides, page => map.pass(pages[page](state)))
     )
 
 export { init, view }

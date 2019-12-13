@@ -31,29 +31,54 @@ const makeActionMap = (extract, merge) => {
         ...fullResult.slice(1),
     ]
 
-    let memoizedMap = actionFn => {
-        let mappedAction = memoizedMap.memo.get(actionFn)
-        if (!mappedAction) {
-            mappedAction = rawMap(actionFn)
-            memoizedMap.memo.set(actionFn, mappedAction)
-        }
-        return mappedAction
-    }
-    memoizedMap.memo = new Map()
-    let actualMap = actionStack => deepMap(memoizedMap, actionStack)
+    // let memoizedMap = actionFn => {
+    //     let mappedAction = memoizedMap.memo.get(actionFn)
+    //     if (!mappedAction) {
+    //         mappedAction = rawMap(actionFn)
+    //         memoizedMap.memo.set(actionFn, mappedAction)
+    //     }
+    //     return mappedAction
+    // }
+    // memoizedMap.memo = new Map()
+    //let actualMap = actionStack => deepMap(memoizedMap, actionStack)
+    let actualMap = actionStack => deepMap(rawMap, actionStack)
     return actualMap
 }
 
-const mapObj = (map, obj) =>
-    Object.entries(obj)
-        .map(([k, v]) => [
-            k,
-            isAction(v) ? (v._x ? ((v._x = false), v) : map(v)) : v,
-        ])
+// const mapObj = (map, obj) =>
+//     Object.entries(obj)
+//         .map(([k, v]) => [
+//             k,
+//             isAction(v) ? (v._x ? ((v._x = false), v) : map(v)) : v,
+//         ])
+//         .reduce((o, [k, v]) => ((o[k] = v), o), {})
+
+// const mapEffects = (map, effects) =>
+//     effects.map(([fn, opt]) => [fn, mapObj(map, opt)])
+
+// const mapVNode = (map, vnode) =>
+//     !vnode
+//         ? vnode
+//         : Array.isArray(vnode)
+//         ? vnode.map(child => mapVNode(map, child))
+//         : vnode.props
+//         ? {
+//               ...vnode,
+//               props: mapObj(map, vnode.props),
+//               children: mapVNode(map, vnode.children),
+//           }
+//         : vnode
+
+const mapObj = (o, f) =>
+    Object.entries(o)
+        .map(([k, v]) => [k, f(k, v)])
         .reduce((o, [k, v]) => ((o[k] = v), o), {})
 
 const mapEffects = (map, effects) =>
-    effects.map(([fn, opt]) => [fn, mapObj(map, opt)])
+    effects.map(([fn, opt]) => [
+        fn,
+        mapObj(opt, (k, v) => (isAction(v) ? map(v) : v)),
+    ])
 
 const mapVNode = (map, vnode) =>
     !vnode
@@ -63,15 +88,19 @@ const mapVNode = (map, vnode) =>
         : vnode.props
         ? {
               ...vnode,
-              props: mapObj(map, vnode.props),
+              props: mapObj(vnode.props, (k, v) => {
+                  if (!k.startsWith('on')) return v
+                  if (!v) return v
+                  if (v.pass) return v.pass
+                  return map(v)
+              }),
               children: mapVNode(map, vnode.children),
           }
         : vnode
 
 export const make = makeActionMap
 export const view = mapVNode
-export const pass = vnode =>
-    mapVNode(action => ((action._x = true), action), vnode)
+export const pass = vnode => mapVNode(pass => ({ pass }), vnode)
 export const fx = mapEffects
 
 // export default (extract, merge, map = makeActionMap(extract, merge)) => x =>

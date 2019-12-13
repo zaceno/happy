@@ -106,26 +106,26 @@ body,
     text-shadow: #7a4a1e;
 }
 
-.slideLeft-enter {
+.left-enter {
     transform: translateX(-103%);
 }
-.slideLeft-enter.slideLeft-run {
+.left-enter.left-run {
     transition: transform 450ms;
     transform: translateX(0%);
 }
-.slideLeft-exit {
+.left-exit {
     transition: transform 450ms;
     transform: translateX(103%);
 }
 
-.slideRight-enter {
+.right-enter {
     transform: translateX(103%);
 }
-.slideRight-enter.slideRight-run {
+.right-enter.right-run {
     transition: transform 450ms;
     transform: translateX(0%);
 }
-.slideRight-exit {
+.right-exit {
     transition: transform 450ms;
     transform: translateX(-103%);
 }
