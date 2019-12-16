@@ -1,14 +1,21 @@
-import * as flow from '../flow'
+import { h } from 'hyperapp'
+import { view as mapView } from '../map'
+import { navMap, navGet } from '../model'
+import { button as NavButton } from '../nav'
+const NavPage = ({}, content) => content
 
 export default state => (
-    <flow.page>
+    <NavPage state={state}>
         <div class="message">Happiness Index Calculator</div>
-        <flow.button
-            state={state}
-            to="start"
-            direction="right"
-            extra="Tap here to..."
-            label="Start"
-        />
-    </flow.page>
+        {mapView(
+            navMap,
+            <NavButton
+                state={navGet(state)}
+                to="start"
+                direction="right"
+                extra="Tap here to..."
+                label="Start"
+            />
+        )}
+    </NavPage>
 )

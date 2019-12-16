@@ -22,7 +22,7 @@ const optionProps = (value, current) => ({
     class: { selected: current === value },
 })
 
-const selector = ({ current }) => (
+const selector = ({ state: { current } }) => (
     <ul class="happinessSelector">
         <li {...optionProps(0, current)}>
             <div class="icon face">
@@ -98,10 +98,7 @@ const selector = ({ current }) => (
     </ul>
 )
 
-const result = ({ votes, total }) => (
-    <p class="happinessResult">
-        {votes ? Math.round((10 * total) / votes) / 10 : ''}
-    </p>
-)
+const result = ({ state: { votes, total } }) =>
+    votes ? Math.round((10 * total) / votes) / 10 : ''
 
 export { init, reset, commit, selector, result }
