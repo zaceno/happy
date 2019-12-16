@@ -1,7 +1,6 @@
 import { h, app } from 'hyperapp'
-import * as map from './map'
-import { init, navMap, navGet } from './model'
-import * as nav from './nav'
+import { init, NavView } from './main'
+
 import InitPage from './pages/init'
 import StartPage from './pages/start'
 import VotePage from './pages/vote'
@@ -20,13 +19,6 @@ const PAGES = {
 
 app({
     init: init('init'),
-    view: state =>
-        map.view(
-            navMap,
-            <nav.view
-                state={navGet(state)}
-                render={p => map.pass(PAGES[p](state))}
-            />
-        ),
+    view: state => <NavView state={state} render={p => PAGES[p](state)} />,
     node: document.querySelector('main'),
 })
