@@ -84,11 +84,11 @@ body,
     height: 60%;
     width: 2em;
 }
-.navButton.left .icon {
+.navButton.right .icon {
     right: 0;
 }
 
-.navButton.right .icon {
+.navButton.left .icon {
     left: 0;
 }
 
@@ -226,4 +226,8 @@ body,
 }
 .icon.hflip svg {
     transform: scale(-1, 1);
+}
+.icon.face {
+    stroke-width: 5;
+    stroke-linecap: round;
 }

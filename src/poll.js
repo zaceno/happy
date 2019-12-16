@@ -1,79 +1,107 @@
 import { h } from 'hyperapp'
 
-const options = [
-    {
-        value: 0,
-        icon: 'noFace',
-        label: 'No Vote',
-        extra: "I don't want to participate.",
-    },
-    {
-        value: 5,
-        icon: 'veryHappyFace',
-        label: 'Very Happy',
-        extra: 'It should always be this way!',
-    },
-    {
-        value: 4,
-        icon: 'happyFace',
-        label: 'Happy',
-        extra: 'It can always get better!',
-    },
-    {
-        value: 3,
-        icon: 'uncertainFace',
-        label: "Don't know",
-        extra: 'Meh... / Mixed feelings',
-    },
-    {
-        value: 2,
-        icon: 'unhappyFace',
-        label: 'Unhappy',
-        extra: 'A lot needs to change!',
-    },
-    {
-        value: 1,
-        icon: 'veryUnhappyFace',
-        label: 'Very Unhappy',
-        extra: 'Why even bother...',
-    },
-]
-export const init = { votes: 0, total: 0, current: 0 }
+const init = { votes: 0, total: 0, current: 0 }
 
-const select = ({ votes, total }, current) => ({ votes, total, current })
+const select = ({ votes, total }, current) => ({
+    votes,
+    total,
+    current,
+})
 
-export const commit = ({ votes, total, current }) => ({
+const commit = ({ votes, total, current }) => ({
     votes: current > 0 ? votes + 1 : votes,
     total: current > 0 ? total + current : total,
     current: 0,
 })
-export const reset = _ => ({ ...init })
 
-const option = ({ value, label, extra, icon }, selected) =>
-    h(
-        'li',
-        {
-            ontouchstart: [select, value],
-            onmousedown: [select, value],
-            class: { selected: selected === value },
-        },
-        [
-            //Icon({ name: icon }),
-            h('p', { class: 'mainText' }, label),
-            h('p', { class: 'extraText' }, extra),
-        ]
-    )
+const reset = _ => ({ ...init })
 
-export const selector = ({ current }) =>
-    h(
-        'ul',
-        { class: 'happinessSelector' },
-        options.map(o => option(o, current))
-    )
+const optionProps = (value, current) => ({
+    ontouchstart: [select, value],
+    onmousedown: [select, value],
+    class: { selected: current === value },
+})
 
-export const result = ({ votes, total }) =>
-    h(
-        'p',
-        { class: 'happinessResult' },
-        votes ? Math.round((10 * total) / votes) / 10 : ''
-    )
+const selector = ({ current }) => (
+    <ul class="happinessSelector">
+        <li {...optionProps(0, current)}>
+            <div class="icon face">
+                <svg width="100%" height="100%" viewBox="-50 -50 100 100">
+                    <circle cx="0" cy="0" r="40" />
+                </svg>
+            </div>
+            <p class="mainText">No Vote</p>
+            <p class="extraText">I don't want to participate</p>
+        </li>
+        <li {...optionProps(5, current)}>
+            <div class="icon face">
+                <svg width="100%" height="100%" viewBox="-50 -50 100 100">
+                    <circle cx="0" cy="0" r="40" />
+                    <line x1="-18" y1="-10" x2="-8" y2="-18" />
+                    <line x1="18" y1="-10" x2="8" y2="-18" />
+                    <path d="M -15 15 C 0 20 0 20 15 15" />
+                </svg>
+            </div>
+            <p class="mainText">Very Happy</p>
+            <p class="extraText">It should always be this way!</p>
+        </li>
+        <li {...optionProps(4, current)}>
+            <div class="icon face">
+                <svg width="100%" height="100%" viewBox="-50 -50 100 100">
+                    <circle cx="0" cy="0" r="40" />
+                    <circle cx="-15" cy="-8" r="2" />
+                    <circle cx="15" cy="-8" r="2" />
+                    <path d="M -15 15 C 0 20 0 20 15 15" />
+                </svg>
+            </div>
+            <p class="mainText">Happy</p>
+            <p class="extraText">It can always get better!</p>
+        </li>
+        <li {...optionProps(3, current)}>
+            <div class="icon face">
+                <svg width="100%" height="100%" viewBox="-50 -50 100 100">
+                    <circle cx="0" cy="0" r="40" />
+                    <circle cx="-15" cy="-8" r="2" />
+                    <circle cx="15" cy="-8" r="2" />
+                    <line x1="-15" y1="15" x2="15" y2="15" />
+                </svg>
+            </div>
+            <p class="mainText">Don't know</p>
+            <p class="extraText">Meh... / Mixed feelings</p>
+        </li>
+        <li {...optionProps(2, current)}>
+            <div class="icon face">
+                <svg width="100%" height="100%" viewBox="-50 -50 100 100">
+                    <circle cx="0" cy="0" r="40" />
+                    <circle cx="-15" cy="-8" r="2" />
+                    <circle cx="15" cy="-8" r="2" />
+                    <path d="M -15 15 C 0 10 0 10 15 15" />
+                </svg>
+            </div>
+            <p class="mainText">Unhappy</p>
+            <p class="extraText">A lot needs to change!</p>
+        </li>
+        <li {...optionProps(1, current)}>
+            <div class="icon face">
+                <svg width="100%" height="100%" viewBox="-50 -50 100 100">
+                    <circle cx="0" cy="0" r="40" />
+                    <line x1="-15" y1="-7" x2="-8" y2="-15" />
+                    <line x1="-8" y1="-15" x2="-15" y2="-18" />
+                    <line x1="15" y1="-7" x2="8" y2="-15" />
+                    <line x1="8" y1="-15" x2="15" y2="-18" />
+                    <path d="M -18 20 C -15 5 15 5 18 20" />
+                </svg>
+            </div>
+            <p class="mainText">Very Unhappy</p>
+            <p class="extraText">Why even bother...</p>
+        </li>
+    </ul>
+)
+
+const result = ({ votes, total }) => (
+    <p class="happinessResult">
+        {votes ? Math.round((10 * total) / votes) / 10 : ''}
+    </p>
+)
+
+export { init, reset, commit, selector, result }

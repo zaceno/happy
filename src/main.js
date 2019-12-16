@@ -1,134 +1,155 @@
+import { h } from 'hyperapp'
 import * as poll from './poll'
 import * as slides from './slides'
-import { h } from 'hyperapp'
-import * as map from './lib/map'
-import dispatch from './lib/dispatch'
+import * as map from './map'
+
+//effect which dispatches another action immediately
+const dispatch = (f => a => [f, { a }])((d, { a }) => a && d(a))
 
 const init = { slides: slides.init('init'), poll: poll.init }
 
-const pollMap = map.make(
-    state => state.poll,
-    (state, poll) => ({ ...state, poll })
+const getPoll = state => state.poll
+const pollMap = map.make(getPoll, (state, poll) => ({ ...state, poll }))
+
+const getSlides = state => state.slides
+const slideMap = map.make(getSlides, (state, slideState) => [
+    { ...state, slides: slideState },
+    slides.getLeaving(slideState) === 'vote' && dispatch(pollMap(poll.commit)),
+    slides.getEntering(slideState) === 'cleared' &&
+        dispatch(pollMap(poll.reset)),
+])
+
+const Navigate = slideMap(slides.show)
+const NavButton = ({ state, to, direction, extra, label }) => (
+    <button
+        class={{
+            navButton: true,
+            [direction]: true,
+            active: slides.getEntering(getSlides(state)) === to,
+        }}
+        onmousedown={[Navigate, { to, direction }]}
+        ontouchstart={[Navigate, { to, direction }]}
+    >
+        <div class={{ icon: true, hflip: direction === 'left' }}>
+            <svg width="100%" height="100%" viewBox="-10 -20 20 40">
+                <path
+                    d="M -7 -17 L 7 0 L -7 17"
+                    stroke-linecap="butt"
+                    stroke-width="3"
+                />
+            </svg>
+        </div>
+        <p class="extraText">{extra}</p>
+        <p class="mainText">{label}</p>
+    </button>
 )
 
-const slideMap = map.make(
-    state => state.slides,
-    (state, slideState) => [
-        { ...state, slides: slideState },
-        slides.getLeaving(slideState) === 'vote' &&
-            dispatch(pollMap(poll.commit)),
-        slides.getEntering(slideState) === 'cleared' &&
-            dispatch(pollMap(poll.reset)),
-    ]
-)
-
-const NavButton = (
-    state,
-    { to, direction, extra, label },
-    go = slideMap([slides.go, { to, direction }]),
-    active = slides.getEntering(state.slides) === to
-) =>
-    h(
-        'button',
-        {
-            class: {
-                navButton: true,
-                active,
-            },
-            onmousedown: go,
-            ontouchstart: go,
-        },
-        [
-            h('p', { class: 'extraText' }, extra),
-            h('p', { class: 'mainText' }, label),
-        ]
-    )
+const Page = (_, content) => map.pass(content)
 
 const pages = {
-    init: state => [
-        <div class="message">Happiness Index Calculator</div>,
+    init: state => (
+        <Page>
+            <div class="message">Happiness Index Calculator</div>
+            <NavButton
+                state={state}
+                to="start"
+                direction="right"
+                extra="Tap here to..."
+                label="Start"
+            />
+        </Page>
+    ),
 
-        NavButton(state, {
-            to: 'start',
-            direction: 'right',
-            extra: 'Tap here to...',
-            label: 'Start',
-        }),
-    ],
+    start: state => (
+        <Page>
+            <div class="message">Please pass the phone to the first person</div>
+            ,
+            <NavButton
+                state={state}
+                to="vote"
+                direction="right"
+                extra="When you're ready, tap here to..."
+                label="Vote"
+            />
+        </Page>
+    ),
 
-    start: state => [
-        <div class="message">Please pass the phone to the first person</div>,
+    vote: state => (
+        <Page>
+            <div class="message">How happy are you about your job?</div>
+            {map.view(pollMap, poll.selector(getPoll(state)))}
+            <NavButton
+                state={state}
+                direction="right"
+                to="pass"
+                extra="Make your selection, then tap here to..."
+                label="Cast Vote"
+            />
+        </Page>
+    ),
 
-        NavButton(state, {
-            direction: 'right',
-            to: 'vote',
-            extra: "When you're ready, tap here to...",
-            label: 'Vote',
-        }),
-    ],
+    pass: state => (
+        <Page>
+            <NavButton
+                state={state}
+                to="result"
+                direction="right"
+                extra="Has everyone voted? Tap here to..."
+                label="Check Result"
+            />
+            <div class="message">
+                Thank you! Now, please hand the phone to the next person.
+            </div>
+            <NavButton
+                state={state}
+                to="vote"
+                direction="left"
+                extra="Are you the next person? Tap here to..."
+                label="Vote"
+            />
+        </Page>
+    ),
 
-    vote: state => [
-        h('div', { class: 'message' }, ['How happy are you about your job?']),
-        map.view(pollMap, poll.selector(state.poll)),
-        NavButton(state, {
-            direction: 'right',
-            to: 'pass',
-            extra: 'Make your selection, then tap here to...',
-            label: 'Cast Vote',
-        }),
-    ],
+    result: state => (
+        <Page>
+            <div class="message">
+                Happiness Index:
+                {map.view(pollMap, poll.result(getPoll(state)))}
+            </div>
+            <NavButton
+                state={state}
+                to="cleared"
+                direction="right"
+                extra="Need to do it again? Tap here to..."
+                label="Reset Votes"
+            />
+        </Page>
+    ),
 
-    pass: state => [
-        NavButton(state, {
-            direction: 'right',
-            to: 'result',
-            extra: 'Has everyone voted? Tap here to...',
-            label: 'Check Result',
-        }),
-        h(
-            'div',
-            { class: 'message' },
-            'Thank you! Now, please hand the phone to the next person.'
-        ),
-        NavButton(state, {
-            direction: 'left',
-            to: 'vote',
-            extra: 'Are you the next person? Tap here to...',
-            label: 'Vote',
-        }),
-    ],
-
-    result: state => [
-        h('div', { class: 'message' }, [
-            'Happiness Index:',
-            map.view(pollMap, poll.result(state.poll)),
-        ]),
-        NavButton(state, {
-            direction: 'right',
-            to: 'cleared',
-            extra: 'Need to do it again? Tap here to...',
-            label: 'Reset Votes',
-        }),
-    ],
-
-    cleared: state => [
-        h('div', { class: 'message' }, [
-            'All votes cleared from memory!',
-            map.view(pollMap, poll.result(state.poll)),
-        ]),
-        NavButton(state, {
-            to: 'start',
-            direction: 'left',
-            extra: 'Tap here to...',
-            label: 'Start Again',
-        }),
-    ],
+    cleared: state => (
+        <Page>
+            <div class="message">
+                All votes cleared from memory!
+                {map.view(pollMap, poll.result(getPoll(state)))}
+            </div>
+            <NavButton
+                state={state}
+                to="start"
+                direction="left"
+                extra="Tap here to..."
+                label="Start Again"
+            />
+        </Page>
+    ),
 }
 
 const view = state =>
     map.view(
         slideMap,
-        slides.view(state.slides, page => map.pass(pages[page](state)))
+        <slides.view
+            state={state.slides}
+            content={page => pages[page](state)}
+        />
     )
 
 export { init, view }

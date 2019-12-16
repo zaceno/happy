@@ -1,23 +1,33 @@
 import { h } from 'hyperapp'
-import nextFrame from './lib/next-frame'
 
-const init = page => ({
-    current: page,
+//effect to dispatch an action after the view has rendered once
+const nextFrame = (f => a => [f, { a }])((d, { a }) =>
+    requestAnimationFrame(_ => d(a))
+)
+
+const init = current => ({
+    current,
     prev: null,
     transition: null,
     running: false,
 })
 
-const go = (state, { to, direction }) => [
-    {
-        ...state,
-        current: to,
-        prev: state.current,
-        transition: direction || 'fade',
-    },
-    nextFrame(run),
-]
+const show = (state, { value, transition }) =>
+    state.prev || !value
+        ? state
+        : !transition
+        ? init(value)
+        : [
+              {
+                  ...state,
+                  current: value,
+                  prev: state.current,
+                  transition,
+              },
+              nextFrame(run),
+          ]
 const run = state => ({ ...state, running: true })
+
 const finish = state => ({
     current: state.current,
     running: false,
@@ -29,27 +39,13 @@ const getEntering = state => (state.prev ? state.current : null)
 
 const getLeaving = state => state.prev
 
-const button = (state, { to, direction, label, extra }) => (
-    <button
-        class={{
-            navButton: true,
-            active: state.current === to,
-        }}
-        onmousedown={[go, { to, direction }]}
-        ontouchstart={[go, { to, direction }]}
-    >
-        <p class="extraText">{extra}</p>
-        <p class="mainText">{label}</p>
-    </button>
-)
-
-const page = ({ transition, running, entering, exiting }, content) => (
+const page = ({ state, entering, exiting }, content) => (
     <section
         class={{
             navPage: true,
-            [transition + '-enter']: entering,
-            [transition + '-exit']: exiting,
-            [transition + '-run']: running,
+            [state.transition + '-enter']: entering,
+            [state.transition + '-exit']: exiting,
+            [state.transition + '-run']: state.running,
         }}
         ontransitionend={entering ? finish : null}
     >
@@ -57,14 +53,26 @@ const page = ({ transition, running, entering, exiting }, content) => (
     </section>
 )
 
-const view = ({ transition, running, prev, current }, lookup) => (
+const view = ({ state, content }) => (
     <main class="navContainer">
-        {transition &&
-            page({ transition, running, exiting: true }, lookup(prev))}
-        {transition &&
-            page({ transition, running, entering: true }, lookup(current))}
-        {!transition && page({}, lookup(current))}
+        {state.transition &&
+            page(
+                {
+                    state,
+                    exiting: true,
+                },
+                content(state.prev)
+            )}
+        {state.transition &&
+            page(
+                {
+                    state,
+                    entering: true,
+                },
+                content(state.current)
+            )}
+        {!state.transition && page({ state }, content(state.current))}
     </main>
 )
 
-export { init, go, button, view, getEntering, getLeaving }
+export { init, show, view, getEntering, getLeaving }
