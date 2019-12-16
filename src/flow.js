@@ -15,6 +15,8 @@ const slideMap = map.make(getSlides, (state, slideState) => [
 
 const goto = slideMap(slides.show)
 
+const view = 
+
 const page = ({}, content) => map.pass(content)
 
 const button = ({ state, to, direction, extra, label }) => (

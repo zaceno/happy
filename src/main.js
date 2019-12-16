@@ -11,54 +11,13 @@ const init = { slides: slides.init('init'), poll: poll.init }
 const getPoll = state => state.poll
 const pollMap = map.make(getPoll, (state, poll) => ({ ...state, poll }))
 
-const getSlides = state => state.slides
-const slideMap = map.make(getSlides, (state, slideState) => [
-    { ...state, slides: slideState },
-    slides.getLeaving(slideState) === 'vote' && dispatch(pollMap(poll.commit)),
-    slides.getEntering(slideState) === 'cleared' &&
-        dispatch(pollMap(poll.reset)),
-])
 
-const Navigate = slideMap(slides.show)
-const NavButton = ({ state, to, direction, extra, label }) => (
-    <button
-        class={{
-            navButton: true,
-            [direction]: true,
-            active: slides.getEntering(getSlides(state)) === to,
-        }}
-        onmousedown={[Navigate, { to, direction }]}
-        ontouchstart={[Navigate, { to, direction }]}
-    >
-        <div class={{ icon: true, hflip: direction === 'left' }}>
-            <svg width="100%" height="100%" viewBox="-10 -20 20 40">
-                <path
-                    d="M -7 -17 L 7 0 L -7 17"
-                    stroke-linecap="butt"
-                    stroke-width="3"
-                />
-            </svg>
-        </div>
-        <p class="extraText">{extra}</p>
-        <p class="mainText">{label}</p>
-    </button>
-)
+
 
 const Page = (_, content) => map.pass(content)
 
 const pages = {
-    init: state => (
-        <Page>
-            <div class="message">Happiness Index Calculator</div>
-            <NavButton
-                state={state}
-                to="start"
-                direction="right"
-                extra="Tap here to..."
-                label="Start"
-            />
-        </Page>
-    ),
+    init: ,
 
     start: state => (
         <Page>
