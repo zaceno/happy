@@ -12,7 +12,7 @@ const init = current => ({
     running: false,
 })
 
-const go = (state, { to: value, direction: transition }) =>
+const show = (state, { value, transition }) =>
     state.prev || !value
         ? state
         : !transition
@@ -39,30 +39,6 @@ const getEntering = state => (state.prev ? state.current : null)
 
 const getLeaving = state => state.prev
 
-const button = ({ state, to, direction, extra, label }) => (
-    <button
-        class={{
-            navButton: true,
-            [direction]: true,
-            active: state.current === to,
-        }}
-        onmousedown={[go, { to, direction }]}
-        ontouchstart={[go, { to, direction }]}
-    >
-        <div class={{ icon: true, hflip: direction === 'left' }}>
-            <svg width="100%" height="100%" viewBox="-10 -20 20 40">
-                <path
-                    d="M -7 -17 L 7 0 L -7 17"
-                    stroke-linecap="butt"
-                    stroke-width="3"
-                />
-            </svg>
-        </div>
-        <p class="extraText">{extra}</p>
-        <p class="mainText">{label}</p>
-    </button>
-)
-
 const page = ({ state, entering, exiting }, content) => (
     <section
         class={{
@@ -77,7 +53,7 @@ const page = ({ state, entering, exiting }, content) => (
     </section>
 )
 
-const view = ({ state, render }) => (
+const view = (state, render) => (
     <main class="navContainer">
         {state.transition &&
             page(
@@ -99,4 +75,4 @@ const view = ({ state, render }) => (
     </main>
 )
 
-export { init, button, view, getEntering, getLeaving }
+export { init, show, view, getEntering, getLeaving }

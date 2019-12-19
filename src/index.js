@@ -1,24 +1,15 @@
-import { h, app } from 'hyperapp'
-import { init, NavView } from './main'
-
-import InitPage from './pages/init'
-import StartPage from './pages/start'
-import VotePage from './pages/vote'
-import PassPage from './pages/pass'
-import ResultPage from './pages/result'
-import ClearedPage from './pages/cleared'
-
-const PAGES = {
-    init: InitPage,
-    start: StartPage,
-    vote: VotePage,
-    pass: PassPage,
-    result: ResultPage,
-    cleared: ClearedPage,
-}
+import { app } from 'hyperapp'
+import { mapVNode, mapPass } from 'hyperapp-map'
+import { init, screenGet, screenMap } from './model'
+import { view as ScreenView } from './screens'
+import * as pages from './pages'
 
 app({
     init: init('init'),
-    view: state => <NavView state={state} render={p => PAGES[p](state)} />,
+    view: state =>
+        mapVNode(
+            screenMap,
+            ScreenView(screenGet(state), p => mapPass(pages[p](state)))
+        ),
     node: document.querySelector('main'),
 })

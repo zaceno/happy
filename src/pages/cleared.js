@@ -1,5 +1,5 @@
 import { h } from 'hyperapp'
-import { NavButton, Page, PollResult, Panel } from '../main'
+import { NavButton, Page, PollResult, Panel } from '../widgets'
 
 export default state => (
     <Page>
