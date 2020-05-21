@@ -1,4 +1,4 @@
-import { h } from 'hyperapp'
+import html from 'hyperlit'
 import css from './style.css'
 
 //effect to dispatch an action after the view has rendered once
@@ -41,9 +41,9 @@ const getEntering = state => (state.prev ? state.current : null)
 
 const getLeaving = state => state.prev
 
-const Screen = ({ state, entering, exiting }, content) => (
+const Screen = ({ state, entering, exiting }, content) => html`
     <section
-        class={[
+        class=${[
             css.navPage,
             {
                 [css[state.transition + '-enter']]: entering,
@@ -51,28 +51,27 @@ const Screen = ({ state, entering, exiting }, content) => (
                 [css[state.transition + '-run']]: state.running,
             },
         ]}
-        ontransitionend={entering ? finish : null}
+        ontransitionend=${entering ? finish : null}
     >
-        {content}
-    </section>
-)
+        ${content}
+    </section>`
 
-const view = (state, render) => (
-    <main class={css.navContainer}>
-        {state.transition && (
-            <Screen state={state} exiting={true}>
-                {render(state.prev)}
-            </Screen>
-        )}
-        {state.transition && (
-            <Screen state={state} entering={true}>
-                {render(state.current)}
-            </Screen>
-        )}
-        {!state.transition && (
-            <Screen state={state}>{render(state.current)}</Screen>
-        )}
-    </main>
-)
+
+const view = (state, render) => html`
+    <main class=${css.navContainer}>
+        ${state.transition && html`
+            <${Screen} state=${state} exiting=${true}>
+                ${render(state.prev)}
+            </${Screen}>`
+        }
+        ${state.transition && html`
+            <${Screen} state=${state} entering=${true}>
+                ${render(state.current)}
+            <//>`
+        }
+        ${!state.transition && html`
+            <${Screen} state=${state}>${render(state.current)}<//>`
+        }
+    </main>`
 
 export { init, show, view, getEntering, getLeaving }
