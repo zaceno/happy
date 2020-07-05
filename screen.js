@@ -3,33 +3,27 @@ import nextFrame from './next-frame.js'
 
 // MODEL
 
-
 const init = (current) => ({ current, mode: 'idle', next: null, type: null })
-const start = (state, {next, type}) => state.mode !== 'idle' ? state : { ...state, next, type, mode: 'started' }
-const run = state => state.mode !== 'started' ? state : { ...state, mode: 'running' }
-const finish = state => state.mode !== 'running' ? state : { mode: 'idle', current: state.next, next: null, type: null }
-
-
+const start = (state, { next, type }) => (state.mode !== 'idle' ? state : { ...state, next, type, mode: 'started' })
+const run = (state) => (state.mode !== 'started' ? state : { ...state, mode: 'running' })
+const finish = (state) =>
+    state.mode !== 'running' ? state : { mode: 'idle', current: state.next, next: null, type: null }
 
 // ACTIONS
 
-const GoTo = (state, { transf, to, direction }) => [
-    transf(start)(state, { next: to, type: direction }),
-    nextFrame([RunTransition, {transf}]),
+const GoTo = (state, { map, args: [to, direction] }) => [
+    map(start)(state, { next: to, type: direction }),
+    nextFrame([RunTransition, { map }]),
 ]
-const RunTransition = (state, {transf}) => transf(run)(state)
-const TransitionEnd = (state, {transf}) => transf(finish)(state)
-
+const RunTransition = (state, { map }) => map(run)(state)
+const TransitionEnd = (state, { map }) => map(finish)(state)
 
 //VIEWS
 
-const slides = ({ state, transf, render }) =>
+const slides = (state, act, { render }) =>
     state.mode !== 'idle'
         ? html`<main>
-              <section
-                  class="${state.type}-exit"
-                  ontransitionend=${[TransitionEnd, {transf}]}
-              >
+              <section class="${state.type}-exit" ontransitionend=${act(TransitionEnd)}>
                   ${render(state.current)}
               </section>
               <section
@@ -47,20 +41,13 @@ const slides = ({ state, transf, render }) =>
               </section>
           </main>`
 
-const navbutton = ({
-    state,
-    transf,
-    to,
-    direction,
-    extra,
-    label,
-}) => html` <button
+const navbutton = (state, act, { to, direction, extra, label }) => html` <button
     class=${{
         navbutton: true,
         'navbutton-active': state.next === to,
     }}
-    onmousedown=${[GoTo, { transf, direction, to }]}
-    ontouchstart=${[GoTo, { transf, direction, to }]}
+    onmousedown=${act(GoTo, to, direction)}
+    ontouchstart=${act(GoTo, to, direction)}
 >
     <svg
         class=${{
@@ -76,5 +63,4 @@ const navbutton = ({
     <p class="navbutton-label">${label}</p>
 </button>`
 
-
-export {init, start, navbutton, slides}
+export { init, start, navbutton, slides }
