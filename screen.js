@@ -1,59 +1,66 @@
-import html from 'https://unpkg.com/hyperlit?module'
-import nextFrame from './next-frame.js'
+import html from "https://unpkg.com/hyperlit"
+import nextFrame from "./next-frame.js"
 
 // MODEL
 
-const init = (current) => ({ current, mode: 'idle', next: null, type: null })
-const start = (state, { next, type }) => (state.mode !== 'idle' ? state : { ...state, next, type, mode: 'started' })
-const run = (state) => (state.mode !== 'started' ? state : { ...state, mode: 'running' })
+const init = (current) => ({ current, mode: "idle", next: null, type: null })
+const start = (state, { next, type }) =>
+    state.mode !== "idle" ? state : { ...state, next, type, mode: "started" }
+const run = (state) =>
+    state.mode !== "started" ? state : { ...state, mode: "running" }
 const finish = (state) =>
-    state.mode !== 'running' ? state : { mode: 'idle', current: state.next, next: null, type: null }
+    state.mode !== "running"
+        ? state
+        : { mode: "idle", current: state.next, next: null, type: null }
 
-// ACTIONS
-
-const GoTo = (state, { map, args: [to, direction] }) => [
-    map(start)(state, { next: to, type: direction }),
-    nextFrame([RunTransition, { map }]),
-]
-const RunTransition = (state, { map }) => map(run)(state)
-const TransitionEnd = (state, { map }) => map(finish)(state)
-
-//VIEWS
-
-const slides = (state, act, { render }) =>
-    state.mode !== 'idle'
+const wire = ({ getter, setter, onenter, onexit }) => {
+    const map = (f) => (x, y) => setter(x, f(getter(x), y))
+    const GoTo = (state, { to, direction }) => [
+        onexit(
+            onenter(map(start)(state, { next: to, type: direction }), to),
+            getter(state).current,
+        ),
+        nextFrame(RunTransition),
+    ]
+    const RunTransition = map(run)
+    const TransitionEnd = map(finish)
+    const model = (state) => ({ ...getter(state), GoTo, TransitionEnd })
+    return { model }
+}
+const slides = ({ mode, type, current, next, TransitionEnd, render }) =>
+    mode !== "idle"
         ? html`<main>
-              <section class="${state.type}-exit" ontransitionend=${act(TransitionEnd)}>
-                  ${render(state.current)}
+              <section class="${type}-exit" ontransitionend=${TransitionEnd}>
+                  ${render(current)}
               </section>
               <section
                   class=${{
-                      [state.type + '-enter']: true,
-                      [state.type + '-run']: state.mode === 'running',
+                      [type + "-enter"]: true,
+                      [type + "-run"]: mode === "running",
                   }}
               >
-                  ${render(state.next)}
+                  ${render(next)}
               </section>
           </main>`
         : html`<main>
               <section>
-                  ${render(state.current)}
+                  ${render(current)}
               </section>
           </main>`
 
-const navbutton = (state, act, { to, direction, extra, label }) => html` <button
+const navbutton = ({ GoTo, next, to, direction, extra, label }) => html` <button
     class=${{
         navbutton: true,
-        'navbutton-active': state.next === to,
+        "navbutton-active": next === to,
     }}
-    onmousedown=${act(GoTo, to, direction)}
-    ontouchstart=${act(GoTo, to, direction)}
+    onmousedown=${[GoTo, { to, direction }]}
+    ontouchstart=${[GoTo, { to, direction }]}
 >
     <svg
         class=${{
             chevron: true,
-            'chevron-left': direction === 'left',
-            'chevron-right': direction === 'right',
+            "chevron-left": direction === "left",
+            "chevron-right": direction === "right",
         }}
         viewBox="-10 -20 20 40"
     >
@@ -63,4 +70,4 @@ const navbutton = (state, act, { to, direction, extra, label }) => html` <button
     <p class="navbutton-label">${label}</p>
 </button>`
 
-export { init, start, navbutton, slides }
+export { init, wire, navbutton, slides }

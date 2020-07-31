@@ -1,7 +1,6 @@
-import html from 'https://unpkg.com/hyperlit?module'
+import html from "https://unpkg.com/hyperlit"
 
-// MODEL
-const init = () => ({ sum: 0, count: 0, vote: 0 })
+export const init = () => ({ sum: 0, count: 0, vote: 0 })
 const select = (state, vote) => ({ ...state, vote })
 const commit = (state) =>
     !state.vote
@@ -12,11 +11,18 @@ const commit = (state) =>
               vote: 0,
           }
 
-// ACTIONS
-
-const SelectVote = (state, { map, args: [value] }) => map(select)(state, value)
-
-// VIEWS
+export const wire = ({ getter, setter }) => {
+    const map = (f) => (x, y) => setter(x, f(getter(x), y))
+    const SelectVote = (state, value) => map(select)(state, value)
+    return {
+        clear: (state) => setter(state, init()),
+        commit: map(commit),
+        model: (state) => ({
+            ...getter(state),
+            SelectVote,
+        }),
+    }
+}
 
 const face = (features) => html` <svg class="face" viewBox="-50 -50 100 100">
     <circle cx="0" cy="0" r="40" />
@@ -57,29 +63,60 @@ const veryunhappyface = face(html`
     <path d="M -18 20 C -15 5 15 5 18 20" />
 `)
 
-const getFace = (value) => [noface, veryunhappyface, unhappyface, mehface, happyface, veryhappyface][value]
+const getFace = (value) =>
+    [noface, veryunhappyface, unhappyface, mehface, happyface, veryhappyface][
+        value
+    ]
 
-const option = ({ value, state, act, label, extra }) => html` <li
-    ontouchstart=${act(SelectVote, value)}
-    onmousedown=${act(SelectVote, value)}
-    class=${{ selected: value === state.vote }}
+const option = ({ vote, SelectVote, value, label, extra }) => html` <li
+    ontouchstart=${[SelectVote, value]}
+    onmousedown=${[SelectVote, value]}
+    class=${{ selected: value === vote }}
 >
     ${getFace(value)}
     <p class="label">${label}</p>
     <p class="extra">${extra}</p>
 </li>`
 
-const selector = (state, act) => html` <ul class="happiness-selector">
-    <${option} ${{ state, act }} value=${0} label="No Vote" extra="I don't want to participate" />
-    <${option} ${{ state, act }} value=${5} label="Very Happy" extra="It should always be this way" />
-    <${option} ${{ state, act }} value=${4} label="Happy" extra="It can always get better" />
-    <${option} ${{ state, act }} value=${3} label="Don't know" extra="Meh... / Mixed feelings" />
-    <${option} ${{ state, act }} value=${2} label="Unhappy" extra="A lot needs to change!" />
-    <${option} ${{ state, act }} value=${1} label="Very Unhappy" extra="Why even bother..." />
+export const selector = (props) => html` <ul class="happiness-selector">
+    <${option}
+        ${props}
+        value=${0}
+        label="No Vote"
+        extra="I don't want to participate"
+    />
+    <${option}
+        ${props}
+        value=${5}
+        label="Very Happy"
+        extra="It should always be this way"
+    />
+    <${option}
+        ${props}
+        value=${4}
+        label="Happy"
+        extra="It can always get better"
+    />
+    <${option}
+        ${props}
+        value=${3}
+        label="Don't know"
+        extra="Meh... / Mixed feelings"
+    />
+    <${option}
+        ${props}
+        value=${2}
+        label="Unhappy"
+        extra="A lot needs to change!"
+    />
+    <${option}
+        ${props}
+        value=${1}
+        label="Very Unhappy"
+        extra="Why even bother..."
+    />
 </ul>`
 
-const result = ({ count, sum }) => html` <span class="result">
-    ${count > 0 ? Math.round((sum * 10) / count) / 10 : ''}
+export const result = ({ count, sum }) => html` <span class="result">
+    ${count > 0 ? Math.round((sum * 10) / count) / 10 : ""}
 </span>`
-
-export { init, commit, selector, result }
